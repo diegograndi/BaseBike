@@ -1,0 +1,15 @@
+a {
+  text-decoration: none;
+  color: #999;
+}
+a:hover {
+  color: #333;
+}
+nav {
+  margin: 2em;
+  text-align: center;
+  font-family: Arial;
+}
+.active {
+  text-decoration:underline;
+}
