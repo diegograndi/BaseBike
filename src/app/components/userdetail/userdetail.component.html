@@ -1,7 +1,9 @@
-<p>
-    dettaglio cliente (N. {{usrid}})<br/>
-    _______________________<br/>
-    ***********************<br/>
-    ***********************<br/>
-    ***********************<br/>
-  </p>
+<div style="background-color: lavender">
+    dettaglio cliente<br/>
+    {{user[0].firstName}} {{user[0].lastName}}
+   <br/>
+   {{user[0].email}}<br/>
+   {{user[0].phone}}<br/>
+  {{user[0].address}} - {{user[0].cap}} - {{user[0].city}} - {{user[0].district}} <br/>
+  {{user[0].country}}
+</div>

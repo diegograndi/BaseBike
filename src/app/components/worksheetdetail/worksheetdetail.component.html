@@ -1,7 +1,62 @@
-<p>
-  dettaglio scheda lavoro (N. {{wshid}})<br/>
-  _______________________<br/>
-  ***********************<br/>
-  ***********************<br/>
-  ***********************<br/>
-</p>
+<form #worksheetForm="ngForm">
+<div style="background-color: khaki">
+  dettaglio scheda lavoro (N.{{worksheet[0].webID}})<br/>
+  -----------------------------------<br/>
+  {{worksheet[0].brand}} - {{worksheet[0].model}} - {{worksheet[0].type}} - {{worksheet[0].color}}  <br/>
+
+<input type="text" id="brand" placeholder="brand" [(ngModel)]="worksheet[0].brand" name="brand" required>
+<input type="text" id="model" placeholder="model" [(ngModel)]="worksheet[0].model" name="model" required>
+<input type="text" id="type"  placeholder="type" [(ngModel)]="worksheet[0].type" name="type" required>
+<input type="text" id="color" placeholder="color" [(ngModel)]="worksheet[0].color" name="color" required>
+<button type="button" (click) = WorksheetUpdate(); > salva</button>
+<br/>
+</div>
+<div style="background-color:khaki">
+  <form>
+  <table class="table table-hover">
+    <thead>
+      <th>N</th>
+      <th>servizio</th>
+      <th>descrizione</th>
+      <th>Prezzo</th>
+      <th>azione</th>
+
+    </thead>
+    <tbody>
+          <tr *ngFor="let item of items; let i  = index">
+              <td>{{item.webID}}</td>
+              <td>{{item.name}}</td>
+              <td>{{item.description}}</td>
+              <td>{{item.price | number:'.2-2'}}&nbsp;CHF</td>
+              <td><button type="button" (click) = WorksheetItemDelete(item); >elimina</button></td>
+            </tr>
+    </tbody>
+  </table>
+  </form>
+</div>
+
+<div style="background-color: khaki">
+  <table class="table table-hover">
+    <thead>
+      <th>Immagine</th>
+    </thead>
+    <tbody>
+          <tr *ngFor="let photo of photos">
+              <td>{{ photo.file }}</td>
+            </tr>
+    </tbody>
+  </table>
+  </div>
+  <div style="background-color: khaki">
+    <b>dettaglio cliente</b><br/>
+    {{user[0].firstName}} {{user[0].lastName}}
+   <br/>
+   {{user[0].email}}<br/>
+   {{user[0].phone}}<br/>
+  {{user[0].address}} - {{user[0].cap}} - {{user[0].city}} - {{user[0].district}} <br/>
+  {{user[0].country}}
+  </div>
+
+</form>
+<br/>
+

@@ -1,7 +1,8 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-
+import { HttpClientModule} from '@angular/common/http';
 import { AppRoutingModule } from './app-routing.module';
+import { FormsModule } from '@angular/forms';
 import { AppComponent } from './app.component';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { WorksheetsComponent } from './components/worksheets/worksheets.component';
@@ -10,6 +11,8 @@ import { UsersComponent } from './components/users/users.component';
 import { ItemsComponent } from './components/items/items.component';
 import { ItemdetailComponent } from './components/itemdetail/itemdetail.component';
 import { UserdetailComponent } from './components/userdetail/userdetail.component';
+import { WorksheetItemsComponent } from './components/worksheetitems/worksheetitems.component';
+import { WorksheetphotosComponent } from './components/worksheetphotos/worksheetphotos.component';
 
 @NgModule({
   declarations: [
@@ -20,11 +23,15 @@ import { UserdetailComponent } from './components/userdetail/userdetail.componen
     UsersComponent,
     ItemsComponent,
     ItemdetailComponent,
-    UserdetailComponent
+    UserdetailComponent,
+    WorksheetItemsComponent,
+    WorksheetphotosComponent
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    HttpClientModule,
+    FormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

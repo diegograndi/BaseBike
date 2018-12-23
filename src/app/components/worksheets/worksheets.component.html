@@ -1,5 +1,19 @@
-<ul>
-  <li><a [routerLink]="['/worksheetdetail/1']" routerLinkActive="router-link-active">scheda 1</a></li>
-  <li><a [routerLink]="['/worksheetdetail/2']" routerLinkActive="router-link-active">scheda 2</a></li>
-  <li><a [routerLink]="['/worksheetdetail/3']" routerLinkActive="router-link-active">scheda 3</a></li>
-</ul>
+
+<table class="table table-hover">
+  <thead>
+    <th>N</th>
+    <th>Consegna</th>
+    <th>Cliente</th>
+    <th>Modello</th>
+
+  </thead>
+  <tbody>
+
+        <tr *ngFor="let worksheet of worksheets">
+            <td><a routerLink="/worksheetdetail/{{worksheet.worksheetID}}/{{worksheet.userID}} " routerLinkActive="router-link-active" >{{ worksheet.webID }}</a></td>
+            <td>{{worksheet.dateDelivery}}</td>
+            <td>-</td>
+            <td>{{worksheet.brand}}-{{worksheet.model}}-{{worksheet.type}}-{{worksheet.color}}</td>
+          </tr>
+  </tbody>
+</table>
