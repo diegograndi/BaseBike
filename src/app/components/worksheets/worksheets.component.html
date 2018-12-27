@@ -1,19 +1,57 @@
 
-<table class="table table-hover">
+
+
+
+<div class="w3-main" style="margin-left:300px;margin-top:43px;">
+
+   <!-- Header -->
+ <header class="w3-container" style="padding-top:22px">
+  <h5><b><i class="fa fa-list-alt"></i> Schede di lavoro</b></h5>
+</header>
+
+<form #worksheetsForm="ngForm">
+    <div style="background-color: lightcoral;height: 100px;">
+     <br/>
+     NUOVA SCHEDA
+     <br/>
+    <input type="text" id="brand" placeholder="brand" [(ngModel)]="newWorksheet.brand" name="brand" required>
+    <input type="text" id="model" placeholder="model" [(ngModel)]="newWorksheet.model" name="model" required>
+    <input type="text" id="type"  placeholder="type" [(ngModel)]="newWorksheet.type" name="type" required>
+    <input type="text" id="color" placeholder="color" [(ngModel)]="newWorksheet.color" name="color" required>
+    <input type="text" id="datedelivery" placeholder="data consegna" [(ngModel)]="newWorksheet.dateDelivery" name="datedelivery" required>
+    <button type="button" (click) = WorksheetInsert(); > salva</button>
+    <br/>
+    {{userWorksheet.firstName}} - {{userWorksheet.lastName}}
+    <br/>
+  </div>
+    <table style="background-color: lightcoral;">
+       <tr>
+          <input #newUser type="text" id="usersearch" name="usersearch" [(ngModel)]="inputSearch" placeholder="ricerca cliente..." (keyup) = "UserSearch(newUser.value)" ><a routerLink="/userdetail/ "  routerLinkActive="router-link-active" >nuovo</a>
+       </tr>
+       <tr *ngFor="let usr of users;let i  = index">
+            <td>{{usr.firstName}} - {{usr.lastName}} - {{usr.email}} <button type="button" id="user-{{i}}" name="user-{{i}}" (click) = WorksheetUserInsert(usr); > ok</button></td>
+        </tr>
+    </table>
+<br/>
+<br/>
+
+<table>
   <thead>
     <th>N</th>
     <th>Consegna</th>
     <th>Cliente</th>
     <th>Modello</th>
-
+    <th>Azione</th>
   </thead>
   <tbody>
-
         <tr *ngFor="let worksheet of worksheets">
             <td><a routerLink="/worksheetdetail/{{worksheet.worksheetID}}/{{worksheet.userID}} " routerLinkActive="router-link-active" >{{ worksheet.webID }}</a></td>
             <td>{{worksheet.dateDelivery}}</td>
             <td>-</td>
             <td>{{worksheet.brand}}-{{worksheet.model}}-{{worksheet.type}}-{{worksheet.color}}</td>
+            <td><button type="button" (click) = WorksheetDelete(worksheet); >elimina</button></td>
           </tr>
   </tbody>
 </table>
+</form>
+</div>

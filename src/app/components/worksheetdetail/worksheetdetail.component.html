@@ -1,8 +1,7 @@
-<form #worksheetForm="ngForm">
+<form #worksheetdetailForm="ngForm">
 <div style="background-color: khaki">
   dettaglio scheda lavoro (N.{{worksheet[0].webID}})<br/>
   -----------------------------------<br/>
-  {{worksheet[0].brand}} - {{worksheet[0].model}} - {{worksheet[0].type}} - {{worksheet[0].color}}  <br/>
 
 <input type="text" id="brand" placeholder="brand" [(ngModel)]="worksheet[0].brand" name="brand" required>
 <input type="text" id="model" placeholder="model" [(ngModel)]="worksheet[0].model" name="model" required>
@@ -11,34 +10,42 @@
 <button type="button" (click) = WorksheetUpdate(); > salva</button>
 <br/>
 </div>
+<!-- Items -->
 <div style="background-color:khaki">
   <form>
   <table class="table table-hover">
     <thead>
-      <th>N</th>
       <th>servizio</th>
       <th>descrizione</th>
       <th>Prezzo</th>
       <th>azione</th>
-
     </thead>
     <tbody>
-          <tr *ngFor="let item of items; let i  = index">
-              <td>{{item.webID}}</td>
-              <td>{{item.name}}</td>
-              <td>{{item.description}}</td>
-              <td>{{item.price | number:'.2-2'}}&nbsp;CHF</td>
+          <tr style="background-color: lightcoral;height: 30px;">
+            <td><input type="text" id="newname" [(ngModel)]="newItem.name"  placeholder="servizio" name="newname" required></td>
+              <td>  <input type="text" id="newdescription" [(ngModel)]="newItem.description" placeholder="descrizione"  name="newdescription" required></td>
+              <td>&nbsp;CHF
+                <input type="number" id="newprice" [(ngModel)]="newItem.price" placeholder="prezzo" step="0.01"  name="newprice" required></td>
+
+              <td><button type="button" (click) = WorksheetItemInsert(); >aggiungi</button></td>
+          </tr>
+           <tr *ngFor="let item of items; let i  = index">
+              <td><input type="text" id="name-{{i}}" placeholder="servizio" [(ngModel)]="item.name" name="name-{{i}}" required></td>
+              <td>  <input type="text" id="description-{{i}}" placeholder="descrizione" [(ngModel)]="item.description" name="description-{{i}}" required></td>
+              <td>&nbsp;CHF
+                <input type="number" id="price-{{i}}" placeholder="prezzo" step="0.01" [ngModel]="item.price | number : '.2-2'" (ngModelChange)="item.price = $event" name="price-{{i}}" required></td>
+
               <td><button type="button" (click) = WorksheetItemDelete(item); >elimina</button></td>
             </tr>
     </tbody>
   </table>
   </form>
 </div>
-
+<!-- Items -->
 <div style="background-color: khaki">
   <table class="table table-hover">
     <thead>
-      <th>Immagine</th>
+      <th>Foto</th>
     </thead>
     <tbody>
           <tr *ngFor="let photo of photos">
@@ -47,6 +54,7 @@
     </tbody>
   </table>
   </div>
+  <!-- user -->
   <div style="background-color: khaki">
     <b>dettaglio cliente</b><br/>
     {{user[0].firstName}} {{user[0].lastName}}

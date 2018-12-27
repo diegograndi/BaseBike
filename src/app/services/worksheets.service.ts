@@ -8,7 +8,15 @@ import { HttpHeaders } from '@angular/common/http';
 })
 export class WorksheetsService {
 
-  constructor(private http: HttpClient) { }
+  private httpOptions;
+
+  constructor(private http: HttpClient) {
+    this.httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type':  'application/json;application/x-www-form-urlencoded'
+      })
+    };
+  }
 
   list() {
     return this.http.get<Worksheet[]>('https://localhost:5001/bbapi/v1/worksheets/list/');
@@ -19,17 +27,16 @@ export class WorksheetsService {
   }
 
   insert(wshId: Worksheet) {
-    return this.http.get<Worksheet>('https://localhost:5001/bbapi/v1/worksheets/insert/' + wshId );
+    return this.http.put<Worksheet>('https://localhost:5001/bbapi/v1/worksheets/insert/', wshId, this.httpOptions);
+  }
+
+  delete(wshId: Worksheet) {
+    return this.http.delete<Worksheet>('https://localhost:5001/bbapi/v1/worksheets/delete/' + wshId.worksheetID ,
+    this.httpOptions);
   }
 
   update(wshId: Worksheet) {
-    const httpOptions = {
-      headers: new HttpHeaders({
-        'Content-Type':  'application/json;application/x-www-form-urlencoded'
-      })
-    };
-
-    return this.http.post<Worksheet>('https://localhost:5001/bbapi/v1/worksheets/update/',  wshId , httpOptions);
+    return this.http.post<Worksheet>('https://localhost:5001/bbapi/v1/worksheets/update/',  wshId , this.httpOptions);
   }
 
 }

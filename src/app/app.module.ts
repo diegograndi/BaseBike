@@ -13,6 +13,7 @@ import { ItemdetailComponent } from './components/itemdetail/itemdetail.componen
 import { UserdetailComponent } from './components/userdetail/userdetail.component';
 import { WorksheetItemsComponent } from './components/worksheetitems/worksheetitems.component';
 import { WorksheetphotosComponent } from './components/worksheetphotos/worksheetphotos.component';
+import { NavbarComponent } from './components/navbar/navbar.component';
 
 @NgModule({
   declarations: [
@@ -25,7 +26,8 @@ import { WorksheetphotosComponent } from './components/worksheetphotos/worksheet
     ItemdetailComponent,
     UserdetailComponent,
     WorksheetItemsComponent,
-    WorksheetphotosComponent
+    WorksheetphotosComponent,
+    NavbarComponent
   ],
   imports: [
     BrowserModule,

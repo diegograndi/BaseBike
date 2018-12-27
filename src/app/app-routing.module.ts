@@ -12,11 +12,19 @@ import { ItemdetailComponent} from './components/itemdetail/itemdetail.component
 const routes: Routes = [
 
   {
+    path: '',
+    component: DashboardComponent
+  },
+  {
     path: 'worksheets',
     component: WorksheetsComponent
   },
   {
     path: 'worksheetdetail/:wshid/:usrid',
+    component: WorksheetdetailComponent
+  },
+  {
+    path: 'worksheetdetail/add',
     component: WorksheetdetailComponent
   }
 

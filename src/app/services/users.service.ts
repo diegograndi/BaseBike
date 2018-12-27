@@ -16,4 +16,9 @@ export class UsersService {
   detail(usrId: User) {
     return this.http.get<User>('https://localhost:5001/bbapi/v1/users/detail/' + usrId );
   }
+
+  search(search: string) {
+    return this.http.get<User[]>('https://localhost:5001/bbapi/v1/users/list/' + search);
+  }
+
 }
