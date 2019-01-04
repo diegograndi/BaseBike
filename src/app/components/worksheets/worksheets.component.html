@@ -1,57 +1,215 @@
 
-
-
-
 <div class="w3-main" style="margin-left:300px;margin-top:43px;">
-
    <!-- Header -->
- <header class="w3-container" style="padding-top:22px">
-  <h5><b><i class="fa fa-list-alt"></i> Schede di lavoro</b></h5>
-</header>
+  <header class="w3-container" style="padding-top:22px">
+    <h5><b><i class="fa fa-list-alt"></i> Schede di lavoro aperte</b></h5>
+  </header>
+  <div class="w3-container">
 
-<form #worksheetsForm="ngForm">
-    <div style="background-color: lightcoral;height: 100px;">
-     <br/>
-     NUOVA SCHEDA
-     <br/>
-    <input type="text" id="brand" placeholder="brand" [(ngModel)]="newWorksheet.brand" name="brand" required>
-    <input type="text" id="model" placeholder="model" [(ngModel)]="newWorksheet.model" name="model" required>
-    <input type="text" id="type"  placeholder="type" [(ngModel)]="newWorksheet.type" name="type" required>
-    <input type="text" id="color" placeholder="color" [(ngModel)]="newWorksheet.color" name="color" required>
-    <input type="text" id="datedelivery" placeholder="data consegna" [(ngModel)]="newWorksheet.dateDelivery" name="datedelivery" required>
-    <button type="button" (click) = WorksheetInsert(); > salva</button>
+
+
+    <form #worksheetsForm="ngForm">
+        <div class="form-group">
+            <div class="row">
+
+              <div class="col-sm">
+                  <button class="btn btn-primary btn-sm pull-right" (click)= WorksheetShowHide();>{{lblBtnWorksheet}}</button>
+              </div>
+            </div>
+          </div>
+
+    <div *ngIf="show">
+            <div class="form-group">
+              <div class="row">
+                <div class="col-sm">
+                <h5><b><i class="fa fa-file-o"></i> Nuova</b></h5>
+                </div>
+                <div class="col-sm">
+                </div>
+                <div class="col-sm">
+                </div>
+              </div>
+            </div>
+
+
+        <div class="row">
+            <div class="col-sm">
+              <input #newUser type="text" class="form-control" id="customer" name="customer" [(ngModel)]="customer" placeholder="cliente" (keyup) = "CustomerSearch(newUser.value)" >
+              <table class="w3-table w3-striped w3-bordered w3-border w3-hoverable w3-white">
+                  <tr *ngFor="let usr of users;let i  = index">
+
+                      <td style="font-size:10px;color:black">{{usr.firstName}} {{usr.lastName}}<br/>{{usr.email}}</td>
+                      <td><a style="font-size:20px;color:#167ffb"  id="user-{{i}}" name="user-{{i}}" (click) = WorksheetUserInsert(usr); ><i class="fa fa-user-plus icon"></i></a></td>
+
+                  </tr>
+              </table>
+
+        </div>
+            <div class="col-sm">
+              <button class="btn btn-primary btn-sm pull-right" (click) = CustomerShowHide() >{{lblBtnCustomer}}</button>
+
+            </div>
+        </div> <!--row-->
+        <div class="form-group"></div>
+        <div *ngIf="showcustomer">
+            <div class="row">
+                <div class="col-sm">
+                    <div class="form-group">
+                        <input class="form-control" type="text" id="customerFistname" placeholder="nome" [(ngModel)]="newCustomer.firstName" name="customerFistname" required>
+                      </div>
+                </div>
+                <div class="col-sm">
+                    <div class="form-group">
+                        <input class="form-control" type="text" id="customerLastname" placeholder="cognome" [(ngModel)]="newCustomer.lastName" name="customerLastname" required>
+                      </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm">
+                    <div class="form-group">
+                        <input class="form-control" type="text" id="customerEmail" placeholder="email" [(ngModel)]="newCustomer.email" name="customerEmail" required>
+                      </div>
+                </div>
+                <div class="col-sm">
+                    <div class="form-group">
+                        <input class="form-control" type="text" id="customerPhone" placeholder="telefono" [(ngModel)]="newCustomer.phone" name="customerPhone" required>
+                      </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm">
+                    <input class="form-control" type="text" id="customerAddress" placeholder="indirizzo" [(ngModel)]="newCustomer.address" name="customerAddress" required>
+                </div>
+            </div>
+            <div class="form-group"></div>
+            <div class="row">
+                <div class="col-sm">
+                    <input class="form-control" type="text" id="customerCity" placeholder="città" [(ngModel)]="newCustomer.city" name="customerCity" required>
+                </div>
+                <div class="col-sm">
+                    <input class="form-control" type="text" id="customerCap" placeholder="cap" [(ngModel)]="newCustomer.cap" name="customerCap" required>
+                </div>
+            </div>
+            <div class="form-group"></div>
+            <div class="row">
+                <div class="col-sm">
+                    <input class="form-control" type="text" id="customerDistrict" placeholder="distretto" [(ngModel)]="newCustomer.district" name="customerDistrict" required>
+                </div>
+                <div class="col-sm">
+                    <input class="form-control" type="text" id="customerCountry" placeholder="nazione" [(ngModel)]="newCustomer.country" name="customerCountry" required>
+                </div>
+            </div>
+            <div class="form-group"></div>
+            <div class="row">
+            </div>
+            <button type="button" class="btn btn-primary  pull-right" (click) = CustomerInsert(); > salva cliente</button>
+            <div class="col-sm">
+          </div>
+        </div> <!--showcustomer-->
+
+        <div *ngIf="!showcustomer">
+              <div class="form-group">
+                <input class="form-control" type="text" id="brand" placeholder="marca" [(ngModel)]="newWorksheet.brand" name="brand" required>
+              </div>
+              <div class="form-group">
+                <input class="form-control" type="text" id="model" placeholder="modello" [(ngModel)]="newWorksheet.model" name="model" required>
+              </div>
+              <div class="form-group">
+                <input class="form-control" type="text" id="type"  placeholder="tipo" [(ngModel)]="newWorksheet.type" name="type" required>
+              </div>
+              <div class="form-group">
+                <input class="form-control" type="text" id="color" placeholder="colore" [(ngModel)]="newWorksheet.color" name="color" required>
+              </div>
+              <div class="row">
+                <div class="col-sm">
+                    <input class="form-control" placeholder="data di consegna" readonly="true"
+                    name="dp" [(ngModel)]="newWorksheetDate" ngbDatepicker #d="ngbDatepicker" dateFormat="dd-MMM-yyyy" (click)="d.toggle()">
+                <div class="col-sm">
+              </div>
+        </div> <!--!showcustomer-->
+
+          <div class="col-sm">
+            <button type="button" class="btn btn-primary  pull-right" (click) = WorksheetInsert(); > salva scheda</button>
+          </div>
+        </div>
+        </div>
     <br/>
-    {{userWorksheet.firstName}} - {{userWorksheet.lastName}}
-    <br/>
-  </div>
-    <table style="background-color: lightcoral;">
-       <tr>
-          <input #newUser type="text" id="usersearch" name="usersearch" [(ngModel)]="inputSearch" placeholder="ricerca cliente..." (keyup) = "UserSearch(newUser.value)" ><a routerLink="/userdetail/ "  routerLinkActive="router-link-active" >nuovo</a>
-       </tr>
-       <tr *ngFor="let usr of users;let i  = index">
-            <td>{{usr.firstName}} - {{usr.lastName}} - {{usr.email}} <button type="button" id="user-{{i}}" name="user-{{i}}" (click) = WorksheetUserInsert(usr); > ok</button></td>
-        </tr>
+    </div> <!--show-->
+    <div *ngIf="!show">
+    <!-- pager -->
+    <div>
+      <ul *ngIf="pager.pages && pager.pages.length" class="pagination">
+          <li class="page-item"[ngClass]="{disabled:pager.currentPage === 1}">
+              <a class="page-link" (click)="setPage(1)"> << </a>
+          </li>
+          <li class="page-item"[ngClass]="{disabled:pager.currentPage === 1}">
+              <a class="page-link" (click)="setPage(pager.currentPage - 1)"> < </a>
+          </li>
+          <li *ngFor="let page of pager.pages" class="page-item"[ngClass]="{active:pager.currentPage === page}">
+              <a class="page-link" (click)="setPage(page)">{{page}}</a>
+          </li>
+          <li class="page-item"[ngClass]="{disabled:pager.currentPage === pager.totalPages}">
+              <a class="page-link" (click)="setPage(pager.currentPage + 1)"> > </a>
+          </li>
+          <li class="page-item"[ngClass]="{disabled:pager.currentPage === pager.totalPages}">
+              <a class="page-link" (click)="setPage(pager.totalPages)"> >> </a>
+          </li>
+      </ul>
+    </div>
+    <!-- pager -->
+    <table class="w3-table w3-striped w3-bordered w3-border w3-hoverable w3-white">
+      <tbody>
+          <tr>
+              <td><b>N</b></td>
+              <td><b>Consegna</b></td>
+              <td><b>Cliente</b></td>
+              <td><b>Modello</b></td>
+              <td><b>Stato</b></td>
+              <td><b>Azione</b></td>
+            </tr>
+            <tr *ngFor="let worksheet of pagedWorksheets">
+                <td><a routerLink="/worksheetdetail/{{worksheet.worksheetID}}/{{worksheet.userID}} " routerLinkActive="router-link-active" >{{ worksheet.webID }}</a></td>
+                <td>{{worksheet.dateDelivery.substr(6,2)}}/{{worksheet.dateDelivery.substr(4,2)}}/{{worksheet.dateDelivery.substr(0,4)}}</td>
+                <td>{{worksheet.firstname}} {{worksheet.lastname}}</td>
+                <td>{{worksheet.brand}}-{{worksheet.model}}-{{worksheet.type}}-{{worksheet.color}}</td>
+                <td>
+                  <i class="fa"
+          [ngClass]="{
+                'fas fa-thumbs-up': worksheet.status === true,
+                'fas fa-thumbs-down'  : worksheet.status === false
+            }"
+            [style.color]="worksheet.status === false ? 'red' : 'green' "
+        ></i>
+                </td>
+                <td>
+                  <button class="btn btn-primary btn-sm" type="button" (click) = WorksheetDelete(worksheet); ><i class="fa fa-trash icon"></i></button>
+                </td>
+              </tr>
+      </tbody>
     </table>
-<br/>
-<br/>
-
-<table>
-  <thead>
-    <th>N</th>
-    <th>Consegna</th>
-    <th>Cliente</th>
-    <th>Modello</th>
-    <th>Azione</th>
-  </thead>
-  <tbody>
-        <tr *ngFor="let worksheet of worksheets">
-            <td><a routerLink="/worksheetdetail/{{worksheet.worksheetID}}/{{worksheet.userID}} " routerLinkActive="router-link-active" >{{ worksheet.webID }}</a></td>
-            <td>{{worksheet.dateDelivery}}</td>
-            <td>-</td>
-            <td>{{worksheet.brand}}-{{worksheet.model}}-{{worksheet.type}}-{{worksheet.color}}</td>
-            <td><button type="button" (click) = WorksheetDelete(worksheet); >elimina</button></td>
-          </tr>
-  </tbody>
-</table>
-</form>
+    <div class="form-group"></div>
+    <!-- pager -->
+    <div>
+        <ul *ngIf="pager.pages && pager.pages.length" class="pagination">
+            <li class="page-item"[ngClass]="{disabled:pager.currentPage === 1}">
+                <a class="page-link" (click)="setPage(1)"> << </a>
+            </li>
+            <li class="page-item"[ngClass]="{disabled:pager.currentPage === 1}">
+                <a class="page-link" (click)="setPage(pager.currentPage - 1)"> < </a>
+            </li>
+            <li *ngFor="let page of pager.pages" class="page-item"[ngClass]="{active:pager.currentPage === page}">
+                <a class="page-link" (click)="setPage(page)">{{page}}</a>
+            </li>
+            <li class="page-item"[ngClass]="{disabled:pager.currentPage === pager.totalPages}">
+                <a class="page-link" (click)="setPage(pager.currentPage + 1)"> > </a>
+            </li>
+            <li class="page-item"[ngClass]="{disabled:pager.currentPage === pager.totalPages}">
+                <a class="page-link" (click)="setPage(pager.totalPages)"> >> </a>
+            </li>
+        </ul>
+      </div>
+      <!-- pager -->
+    </div> <!--!show-->
+    </form>
+  </div>
 </div>

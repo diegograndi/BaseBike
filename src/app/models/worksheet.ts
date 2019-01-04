@@ -11,4 +11,7 @@ export class Worksheet {
    type?: string;
    color?: string;
    webID?: number;
+   firstname?: string;
+   lastname?: string;
+   email?: string;
   }

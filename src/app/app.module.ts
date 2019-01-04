@@ -14,6 +14,8 @@ import { UserdetailComponent } from './components/userdetail/userdetail.componen
 import { WorksheetItemsComponent } from './components/worksheetitems/worksheetitems.component';
 import { WorksheetphotosComponent } from './components/worksheetphotos/worksheetphotos.component';
 import { NavbarComponent } from './components/navbar/navbar.component';
+import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
+import { MessageboardComponent } from './components/messageboard/messageboard.component';
 
 @NgModule({
   declarations: [
@@ -27,13 +29,15 @@ import { NavbarComponent } from './components/navbar/navbar.component';
     UserdetailComponent,
     WorksheetItemsComponent,
     WorksheetphotosComponent,
-    NavbarComponent
+    NavbarComponent,
+    MessageboardComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
-    FormsModule
+    FormsModule,
+    NgbModule
   ],
   providers: [],
   bootstrap: [AppComponent]

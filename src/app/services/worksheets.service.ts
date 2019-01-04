@@ -18,8 +18,8 @@ export class WorksheetsService {
     };
   }
 
-  list() {
-    return this.http.get<Worksheet[]>('https://localhost:5001/bbapi/v1/worksheets/list/');
+  list(src: string) {
+    return this.http.get<Worksheet[]>('https://localhost:5001/bbapi/v1/worksheets/list/' + src);
   }
 
   detail(wshId: Worksheet) {
