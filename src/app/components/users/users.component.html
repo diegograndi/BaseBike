@@ -1,5 +1,152 @@
-<ul>
-    <li><a [routerLink]="['/userdetail/1']" routerLinkActive="router-link-active">cliente 1</a></li>
-    <li><a [routerLink]="['/userdetail/2']" routerLinkActive="router-link-active">cliente 2</a></li>
-    <li><a [routerLink]="['/userdetail/3']" routerLinkActive="router-link-active">cliente 3</a></li>
-  </ul>
+
+<div class="w3-main" style="margin-left:300px;margin-top:43px;">
+  <!-- Header -->
+ <header class="w3-container" style="padding-top:22px">
+   <h5><b><i class="fa fa-users"></i> Clienti</b></h5>
+ </header>
+ <div class="w3-container">
+   <form #customersForm="ngForm">
+
+    <div class="form-group">
+      <div class="row">
+
+        <div class="col-sm">
+            <button class="btn btn-primary btn-sm pull-right" (click)= CustomerShowHide();>{{lblBtnCustomer}}</button>
+        </div>
+      </div>
+    </div>
+       <div *ngIf="showcustomer">
+           <div class="row">
+               <div class="col-sm">
+                   <div class="form-group">
+                       <input class="form-control" type="text" id="customerFistname" placeholder="nome" [(ngModel)]="newCustomer.firstName" name="customerFistname" required>
+                     </div>
+               </div>
+               <div class="col-sm">
+                   <div class="form-group">
+                       <input class="form-control" type="text" id="customerLastname" placeholder="cognome" [(ngModel)]="newCustomer.lastName" name="customerLastname" required>
+                     </div>
+               </div>
+           </div>
+           <div class="row">
+               <div class="col-sm">
+                   <div class="form-group">
+                       <input class="form-control" type="text" id="customerEmail" placeholder="email" [(ngModel)]="newCustomer.email" name="customerEmail" required>
+                     </div>
+               </div>
+               <div class="col-sm">
+                   <div class="form-group">
+                       <input class="form-control" type="text" id="customerPhone" placeholder="telefono" [(ngModel)]="newCustomer.phone" name="customerPhone" required>
+                     </div>
+               </div>
+           </div>
+           <div class="row">
+               <div class="col-sm">
+                   <input class="form-control" type="text" id="customerAddress" placeholder="indirizzo" [(ngModel)]="newCustomer.address" name="customerAddress" required>
+               </div>
+           </div>
+           <div class="form-group"></div>
+           <div class="row">
+               <div class="col-sm">
+                   <input class="form-control" type="text" id="customerCity" placeholder="città" [(ngModel)]="newCustomer.city" name="customerCity" required>
+               </div>
+               <div class="col-sm">
+                   <input class="form-control" type="text" id="customerCap" placeholder="cap" [(ngModel)]="newCustomer.cap" name="customerCap" required>
+               </div>
+           </div>
+           <div class="form-group"></div>
+           <div class="row">
+               <div class="col-sm">
+                   <input class="form-control" type="text" id="customerDistrict" placeholder="distretto" [(ngModel)]="newCustomer.district" name="customerDistrict" required>
+               </div>
+               <div class="col-sm">
+                   <input class="form-control" type="text" id="customerCountry" placeholder="nazione" [(ngModel)]="newCustomer.country" name="customerCountry" required>
+               </div>
+           </div>
+           <div class="form-group"></div>
+           <div class="row">
+           </div>
+           <button type="button" class="btn btn-primary  pull-right" (click) = CustomerInsert(); > salva cliente</button>
+           <div class="col-sm">
+         </div>
+       </div> <!--showcustomer-->
+   <br/>
+
+   <div *ngIf="!showcustomer">
+   <!-- pager -->
+   <div>
+     <ul *ngIf="pager.pages && pager.pages.length" class="pagination">
+         <li class="page-item"[ngClass]="{disabled:pager.currentPage === 1}">
+             <a class="page-link" (click)="setPage(1)"> << </a>
+         </li>
+         <li class="page-item"[ngClass]="{disabled:pager.currentPage === 1}">
+             <a class="page-link" (click)="setPage(pager.currentPage - 1)"> < </a>
+         </li>
+         <li *ngFor="let page of pager.pages" class="page-item"[ngClass]="{active:pager.currentPage === page}">
+             <a class="page-link" (click)="setPage(page)">{{page}}</a>
+         </li>
+         <li class="page-item"[ngClass]="{disabled:pager.currentPage === pager.totalPages}">
+             <a class="page-link" (click)="setPage(pager.currentPage + 1)"> > </a>
+         </li>
+         <li class="page-item"[ngClass]="{disabled:pager.currentPage === pager.totalPages}">
+             <a class="page-link" (click)="setPage(pager.totalPages)"> >> </a>
+         </li>
+         <li class="page-item">
+           &nbsp;
+         </li>
+         <li class="page-item">
+             <div class="form-group">
+                 <input class="form-control" type="text" id="usrserach" placeholder="ricerca..." [(ngModel)]="search" name="usrserach" (keyup) = "CustomerSearch();" >
+               </div>
+         </li>
+
+     </ul>
+   </div>
+
+   <!-- pager -->
+   <table class="w3-table w3-striped w3-bordered w3-border w3-hoverable w3-white">
+     <tbody>
+         <tr>
+             <td><b><i class="fa fa-user"></i></b></td>
+             <td><b>Nome</b></td>
+             <td><b>Cognome</b></td>
+             <td><b>Email</b></td>
+             <td><b>Azione</b></td>
+           </tr>
+           <tr *ngFor="let customer of pagedCustomers">
+               <td><a routerLink="/userdetail/{{customer.userID}}" routerLinkActive="router-link-active" ><i class="fa fa-info-circle"></i></a></td>
+               <td>{{customer.firstName}}</td>
+               <td>{{customer.lastName}}</td>
+               <td>{{customer.email}}</td>
+               <td>
+                 <button class="btn btn-primary btn-sm" type="button" (click) = CustomerDelete(customer); ><i class="fa fa-trash icon"></i></button>
+               </td>
+            </tr>
+     </tbody>
+   </table>
+   <div class="form-group"></div>
+   <!-- pager -->
+   <div>
+       <ul *ngIf="pager.pages && pager.pages.length" class="pagination">
+           <li class="page-item"[ngClass]="{disabled:pager.currentPage === 1}">
+               <a class="page-link" (click)="setPage(1)"> << </a>
+           </li>
+           <li class="page-item"[ngClass]="{disabled:pager.currentPage === 1}">
+               <a class="page-link" (click)="setPage(pager.currentPage - 1)"> < </a>
+           </li>
+           <li *ngFor="let page of pager.pages" class="page-item"[ngClass]="{active:pager.currentPage === page}">
+               <a class="page-link" (click)="setPage(page)">{{page}}</a>
+           </li>
+           <li class="page-item"[ngClass]="{disabled:pager.currentPage === pager.totalPages}">
+               <a class="page-link" (click)="setPage(pager.currentPage + 1)"> > </a>
+           </li>
+           <li class="page-item"[ngClass]="{disabled:pager.currentPage === pager.totalPages}">
+               <a class="page-link" (click)="setPage(pager.totalPages)"> >> </a>
+           </li>
+       </ul>
+     </div>
+     <!-- pager -->
+   </div> <!--!show-->
+   </form>
+ </div>
+</div>

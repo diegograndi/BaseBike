@@ -7,18 +7,19 @@ import { UsersComponent} from './components/users/users.component';
 import { UserdetailComponent} from './components/userdetail/userdetail.component';
 import { ItemsComponent} from './components/items/items.component';
 import { ItemdetailComponent} from './components/itemdetail/itemdetail.component';
-
+import { CalendarComponent} from './components/calendar/calendar.component';
 
 const routes: Routes = [
 
   {
+    path: 'calendar',
+    component: CalendarComponent
+  },
+   {
     path: 'worksheets',
     component: WorksheetsComponent
   },
-  {
-    path: 'worksheets/:search',
-    component: WorksheetsComponent
-  },
+
   {
     path: 'worksheetdetail/:wshid/:usrid',
     component: WorksheetdetailComponent

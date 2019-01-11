@@ -2,7 +2,7 @@
 <div class="w3-main" style="margin-left:300px;margin-top:43px;">
    <!-- Header -->
   <header class="w3-container" style="padding-top:22px">
-    <h5><b><i class="fa fa-list-alt"></i> Schede di lavoro aperte</b></h5>
+    <h5><b><i class="fa fa-list-alt"></i> Schede di lavoro</b></h5>
   </header>
   <div class="w3-container">
 
@@ -102,7 +102,7 @@
             <div class="form-group"></div>
             <div class="row">
             </div>
-            <button type="button" class="btn btn-primary  pull-right" (click) = CustomerInsert(); > salva cliente</button>
+            <button type="button" class="btn btn-primary  pull-right" (click) = CustomerInsert(); > Salva</button>
             <div class="col-sm">
           </div>
         </div> <!--showcustomer-->
@@ -129,7 +129,7 @@
         </div> <!--!showcustomer-->
 
           <div class="col-sm">
-            <button type="button" class="btn btn-primary  pull-right" (click) = WorksheetInsert(); > salva scheda</button>
+            <button type="button" class="btn btn-primary  pull-right" (click) = WorksheetInsert(); >Salva</button>
           </div>
         </div>
         </div>
@@ -154,32 +154,42 @@
           <li class="page-item"[ngClass]="{disabled:pager.currentPage === pager.totalPages}">
               <a class="page-link" (click)="setPage(pager.totalPages)"> >> </a>
           </li>
+          <li class="page-item">
+            &nbsp;
+          </li>
+          <li class="page-item">
+              <div class="form-group">
+                  <input class="form-control" type="text" id="wshserach" placeholder="ricerca..." [(ngModel)]="search" name="wshserach" (keyup) = "WorksheetSearch()" >
+                </div>
+          </li>
+
       </ul>
     </div>
+
     <!-- pager -->
     <table class="w3-table w3-striped w3-bordered w3-border w3-hoverable w3-white">
       <tbody>
           <tr>
+              <td><b><i class="fa fa-list-alt"></i></b></td>
               <td><b>N</b></td>
-              <td><b>Consegna</b></td>
+              <td><b>Data Consegna</b></td>
               <td><b>Cliente</b></td>
               <td><b>Modello</b></td>
               <td><b>Stato</b></td>
               <td><b>Azione</b></td>
             </tr>
             <tr *ngFor="let worksheet of pagedWorksheets">
-                <td><a routerLink="/worksheetdetail/{{worksheet.worksheetID}}/{{worksheet.userID}} " routerLinkActive="router-link-active" >{{ worksheet.webID }}</a></td>
+                <td><a routerLink="/worksheetdetail/{{worksheet.worksheetID}}/{{worksheet.userID}}" routerLinkActive="router-link-active" ><i class="fa fa-info-circle"></i></a></td>
+                <td>{{worksheet.webID}}</td>
                 <td>{{worksheet.dateDelivery.substr(6,2)}}/{{worksheet.dateDelivery.substr(4,2)}}/{{worksheet.dateDelivery.substr(0,4)}}</td>
                 <td>{{worksheet.firstname}} {{worksheet.lastname}}</td>
                 <td>{{worksheet.brand}}-{{worksheet.model}}-{{worksheet.type}}-{{worksheet.color}}</td>
                 <td>
-                  <i class="fa"
-          [ngClass]="{
-                'fas fa-thumbs-up': worksheet.status === true,
-                'fas fa-thumbs-down'  : worksheet.status === false
-            }"
-            [style.color]="worksheet.status === false ? 'red' : 'green' "
-        ></i>
+                  <i class="fa" [ngClass]="{'fas fa-thumbs-up': worksheet.status === true,
+                                            'fas fa-thumbs-down'  : worksheet.status === false
+                                           }"
+                                [style.color]="worksheet.status === false ? 'red' : 'green' "
+                  ></i>
                 </td>
                 <td>
                   <button class="btn btn-primary btn-sm" type="button" (click) = WorksheetDelete(worksheet); ><i class="fa fa-trash icon"></i></button>

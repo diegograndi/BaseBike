@@ -10,9 +10,10 @@ export class WorksheetphotosService {
   private httpOptions;
 
   constructor(private http: HttpClient) {
+
     this.httpOptions = {
       headers: new HttpHeaders({
-        'Content-Type':  'application/json;application/x-www-form-urlencoded'
+        'Content-Type':  'application/json;'
       })
     };
    }
@@ -29,5 +30,14 @@ export class WorksheetphotosService {
 
     return this.http.delete<Photo>('https://localhost:5001/bbapi/v1/worksheets/photos/delete/' + wshphtId.photoID ,
     this.httpOptions);
+  }
+
+  upload(phtData: FormData, fname: string) {
+
+    return this.http.post('https://localhost:5001/bbapi/v1/worksheets/photos/upload/' + fname , phtData);
+  }
+
+  insert(wshphtId: Photo) {
+    return this.http.put<Photo>('https://localhost:5001/bbapi/v1/worksheets/photos/insert/', wshphtId , this.httpOptions);
   }
 }

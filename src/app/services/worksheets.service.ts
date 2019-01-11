@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Worksheet } from '../models/worksheet';
+import { User} from '../models/user';
 import { HttpHeaders } from '@angular/common/http';
 
 @Injectable({
@@ -13,13 +14,16 @@ export class WorksheetsService {
   constructor(private http: HttpClient) {
     this.httpOptions = {
       headers: new HttpHeaders({
-        'Content-Type':  'application/json;application/x-www-form-urlencoded'
+        'Content-Type':  'application/json;',
+        'Accept': 'application/json;'
       })
     };
   }
-
-  list(src: string) {
-    return this.http.get<Worksheet[]>('https://localhost:5001/bbapi/v1/worksheets/list/' + src);
+  list(srch: string) {
+    return this.http.get<Worksheet[]>('https://localhost:5001/bbapi/v1/worksheets/list/' + srch);
+  }
+  listByUser(usrid: User) {
+    return this.http.get<Worksheet[]>('https://localhost:5001/bbapi/v1/worksheets/listbyuser/' + usrid);
   }
 
   detail(wshId: Worksheet) {

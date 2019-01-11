@@ -1,9 +1,107 @@
-<div style="background-color: lavender">
-    dettaglio cliente<br/>
-    {{user[0].firstName}} {{user[0].lastName}}
-   <br/>
-   {{user[0].email}}<br/>
-   {{user[0].phone}}<br/>
-  {{user[0].address}} - {{user[0].cap}} - {{user[0].city}} - {{user[0].district}} <br/>
-  {{user[0].country}}
+
+<div class="w3-main" style="margin-left:300px;margin-top:43px;">
+  <!-- Header -->
+  <header class="w3-container" style="padding-top:11px">
+     <h5>
+       <b><i class="fa fa-user"></i> Dettaglio cliente</b>
+       <button type="button" class="btn btn-primary pull-right" (click) = CustomerUpdate(); >Salva</button>
+     </h5>
+ </header>
+
+ <div class="w3-container">
+  <form #userdetailForm="ngForm">
+      <div class="w3-panel">
+          <div class="w3-row-padding" style="margin:0 -16px">
+            <div class="w3-twothird">
+              <div class="row">
+                  <div class="col-sm">
+                      <div class="form-group">
+                          <input class="form-control" type="text" id="customerFistname" placeholder="nome" [(ngModel)]="user[0].firstName" name="customerFistname" required>
+                        </div>
+                  </div>
+                  <div class="col-sm">
+                      <div class="form-group">
+                          <input class="form-control" type="text" id="customerLastname" placeholder="cognome" [(ngModel)]="user[0].lastName" name="customerLastname" required>
+                        </div>
+                  </div>
+              </div>
+              <div class="row">
+                  <div class="col-sm">
+                      <div class="form-group">
+                          <input class="form-control" type="text" id="customerEmail" placeholder="email" [(ngModel)]="user[0].email" name="customerEmail" required>
+                        </div>
+                  </div>
+                  <div class="col-sm">
+                      <div class="form-group">
+                          <input class="form-control" type="text" id="customerPhone" placeholder="telefono" [(ngModel)]="user[0].phone" name="customerPhone" required>
+                        </div>
+                  </div>
+              </div>
+              <div class="row">
+                  <div class="col-sm">
+                      <input class="form-control" type="text" id="customerAddress" placeholder="indirizzo" [(ngModel)]="user[0].address" name="customerAddress" required>
+                  </div>
+              </div>
+              <div class="form-group"> </div>
+              <div class="row">
+                  <div class="col-sm">
+                      <input class="form-control" type="text" id="customerCity" placeholder="città" [(ngModel)]="user[0].city" name="customerCity" required>
+                  </div>
+                  <div class="col-sm">
+                      <input class="form-control" type="text" id="customerCap" placeholder="cap" [(ngModel)]="user[0].cap" name="customerCap" required>
+                  </div>
+              </div>
+              <div class="form-group"></div>
+              <div class="row">
+                  <div class="col-sm">
+                      <input class="form-control" type="text" id="customerDistrict" placeholder="distretto" [(ngModel)]="user[0].district" name="customerDistrict" required>
+                  </div>
+                  <div class="col-sm">
+                      <input class="form-control" type="text" id="customerCountry" placeholder="nazione" [(ngModel)]="user[0].country" name="customerCountry" required>
+                  </div>
+              </div>
+              <div class="form-group"></div>
+
+          </div>
+          </div>
+      </div>
+  </form>
+
+  <div *ngIf="worksheets.length > 0">
+  <h5><b><i class="fa fa-list-alt"></i> Schede di lavoro </b></h5>
+    <form>
+      <table class="w3-table w3-striped w3-bordered w3-border w3-hoverable w3-white">
+        <thead style="background-color: lightgray">
+          <th><i class="fa fa-list-alt"></i></th>
+          <th>N.</th>
+          <th>Data Consegna</th>
+          <th>Modello</th>
+          <th>Stato</th>
+        </thead>
+        <tbody>
+
+              <tr *ngFor="let worksheet of worksheets; let i  = index">
+                <td><a routerLink="/worksheetdetail/{{worksheet.worksheetID}}/{{user[0].userID}}" routerLinkActive="router-link-active" ><i class="fa fa-info-circle"></i></a></td>
+                <td>{{ worksheet.webID }}</td>
+                <td>{{worksheet.dateDelivery.substr(6,2)}}/{{worksheet.dateDelivery.substr(4,2)}}/{{worksheet.dateDelivery.substr(0,4)}}</td>
+                <td>{{worksheet.brand}}-{{worksheet.model}}-{{worksheet.type}}-{{worksheet.color}}</td>
+                <td>
+                  <i class="fa" [ngClass]="{'fas fa-thumbs-up': worksheet.status === true,
+                                            'fas fa-thumbs-down'  : worksheet.status === false
+                                           }"
+                                [style.color]="worksheet.status === false ? 'red' : 'green' "
+                  ></i>
+                </td>
+
+              </tr>
+
+        </tbody>
+      </table>
+    </form>
+  </div>
 </div>
+
+
+
+
+

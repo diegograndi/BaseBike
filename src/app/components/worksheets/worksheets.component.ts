@@ -126,9 +126,25 @@ export class WorksheetsComponent implements OnInit {
         this.wshSrv.delete(wsh).subscribe(
           event => {
             this.worksheets.splice(index, 1);
+            this.setPage(1);
           }
         );
       }
+    }
+  }
+  WorksheetSearch() {
+    if (this.search.length >= 3) {
+          this.wshSrv.list(this.search).subscribe(result => {
+          this.worksheets = result;
+          this.setPage(1);
+          }
+        );
+    } else {
+          this.wshSrv.list('').subscribe(result => {
+          this.worksheets = result;
+          this.setPage(1);
+        }
+      );
     }
   }
 

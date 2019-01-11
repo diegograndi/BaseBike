@@ -16,6 +16,10 @@ import { WorksheetphotosComponent } from './components/worksheetphotos/worksheet
 import { NavbarComponent } from './components/navbar/navbar.component';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import { MessageboardComponent } from './components/messageboard/messageboard.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { CalendarModule, DateAdapter } from 'angular-calendar';
+import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
+import { CalendarComponent } from './components/calendar/calendar.component';
 
 @NgModule({
   declarations: [
@@ -30,14 +34,20 @@ import { MessageboardComponent } from './components/messageboard/messageboard.co
     WorksheetItemsComponent,
     WorksheetphotosComponent,
     NavbarComponent,
-    MessageboardComponent
+    MessageboardComponent,
+    CalendarComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
     FormsModule,
-    NgbModule
+    NgbModule,
+    BrowserAnimationsModule,
+    CalendarModule.forRoot({
+      provide: DateAdapter,
+      useFactory: adapterFactory
+    })
   ],
   providers: [],
   bootstrap: [AppComponent]
