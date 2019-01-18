@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, Output, EventEmitter } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Worksheet } from '../models/worksheet';
 import { User} from '../models/user';
@@ -10,6 +10,9 @@ import { HttpHeaders } from '@angular/common/http';
 export class WorksheetsService {
 
   private httpOptions;
+
+  @Output() changeWorksheetsCount: EventEmitter<number> = new EventEmitter();
+  @Output() changeOpenWorksheetsCount: EventEmitter<number> = new EventEmitter();
 
   constructor(private http: HttpClient) {
     this.httpOptions = {
@@ -42,5 +45,13 @@ export class WorksheetsService {
   update(wshId: Worksheet) {
     return this.http.post<Worksheet>('https://localhost:5001/bbapi/v1/worksheets/update/',  wshId , this.httpOptions);
   }
+
+ notifyWorksheetsCount(cnt: number) {
+  this.changeOpenWorksheetsCount.emit(cnt);
+ }
+
+ notifyOpenWorksheetsCount(cnt: number) {
+  this.changeWorksheetsCount.emit(cnt);
+ }
 
 }

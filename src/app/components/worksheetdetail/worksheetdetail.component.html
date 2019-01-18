@@ -147,7 +147,7 @@
                           <td> <input class="form-control" type="text" id="newdescription" [(ngModel)]="newItem.description" placeholder="descrizione"  name="newdescription" required></td>
                           <td>
                               <div class="input-group">
-                                  <input class="form-control" type="number" id="newprice" [(ngModel)]="newItem.price" placeholder="prezzo" step="0.01"  name="newprice" required>
+                                  <input class="form-control" type="number" id="newprice" [(ngModel)]="newItem.price" placeholder="prezzo" step="0.50"  name="newprice" required>
                                   <div class="input-group-append">
                                       <span class="input-group-text">CHF</span>
                                   </div>
@@ -160,7 +160,7 @@
                           <td><input [disabled]="worksheet[0].status" class="form-control" type="text" id="description-{{i}}" placeholder="descrizione" [(ngModel)]="item.description" name="description-{{i}}" required></td>
                           <td>
                             <div class="input-group">
-                              <input [disabled]="worksheet[0].status" class="form-control" type="number" id="price-{{i}}" placeholder="prezzo" step="0.01" [ngModel]="item.price | number : '.2-2'" (ngModelChange)="item.price = $event" name="price-{{i}}" required>
+                              <input [disabled]="worksheet[0].status" class="form-control" type="number" id="price-{{i}}" placeholder="prezzo" step="0.50" [ngModel]="item.price | number : '.2-2'" (ngModelChange)="item.price = $event" name="price-{{i}}" required>
                               <div class="input-group-append">
                                   <span class="input-group-text">CHF</span>
                               </div>

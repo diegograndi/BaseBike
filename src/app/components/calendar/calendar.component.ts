@@ -1,9 +1,11 @@
-import {
-  Component,
-  ChangeDetectionStrategy,
-  ViewChild,
-  TemplateRef
-} from '@angular/core';
+import { Component, ChangeDetectionStrategy, OnInit, ViewEncapsulation } from '@angular/core';
+import { colors } from '../../utility/colors';
+import { Subject } from 'rxjs';
+import { WorksheetsService} from '../../services/worksheets.service';
+import {Worksheet} from '../../models/worksheet';
+import { Observable } from 'rxjs';
+import {NgbDateFRParserFormatter} from '../../utility/dateformat';
+
 import {
   startOfDay,
   endOfDay,
@@ -14,84 +16,83 @@ import {
   isSameMonth,
   addHours
 } from 'date-fns';
-import { Subject } from 'rxjs';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import {
   CalendarEvent,
   CalendarEventAction,
   CalendarEventTimesChangedEvent,
-  CalendarView
+  CalendarView,
+  CalendarUtils,
+  CalendarMonthViewDay,
+  DAYS_OF_WEEK,
 } from 'angular-calendar';
 
-const colors: any = {
-  red: {
-    primary: '#ad2121',
-    secondary: '#FAE3E3'
-  },
-  blue: {
-    primary: '#1e90ff',
-    secondary: '#D1E8FF'
-  },
-  yellow: {
-    primary: '#e3bc08',
-    secondary: '#FDF1BA'
-  }
-};
+const RED_CELL: 'red-cell' = 'red-cell';
 
 @Component({
   selector: 'app-calendar',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  encapsulation: ViewEncapsulation.None,
   templateUrl: './calendar.component.html',
-  styleUrls: ['./calendar.component.scss']
+  styles: [
+    `
+      .custom-event span a{
+        color: #ffffff !important;
+      }    `
+  ]
 })
-export class CalendarComponent {
-  @ViewChild('modalContent')
-  modalContent: TemplateRef<any>;
 
-  view: CalendarView = CalendarView.Month;
 
-  CalendarView = CalendarView;
-
+export class CalendarComponent implements OnInit {
+  view: string = 'month';
   viewDate: Date = new Date();
-
-
-
-  modalData: {
-    action: string;
-    event: CalendarEvent;
-  };
-
-  actions: CalendarEventAction[] = [
-    {
-      label: '<i class="fa fa-fw fa-pencil"></i>',
-      onClick: ({ event }: { event: CalendarEvent }): void => {
-        this.handleEvent('Edited', event);
-      }
-    },
-    {
-      label: '<i class="fa fa-fw fa-times"></i>',
-      onClick: ({ event }: { event: CalendarEvent }): void => {
-        this.events = this.events.filter(iEvent => iEvent !== event);
-        this.handleEvent('Deleted', event);
-      }
-    }
-  ];
-
   refresh: Subject<any> = new Subject();
-
-  events: CalendarEvent[] = [
-
-    {
-      start: new Date(),
-      title: 'Scheda N.102',
-      color: colors.red,
-      draggable: true
-    }
-  ];
-
-
+  worksheets: Worksheet[];
+  events: CalendarEvent[] ;
+  locale: string = 'it';
   activeDayIsOpen = true;
+  weekStartsOn: number = DAYS_OF_WEEK.MONDAY;
+  weekendDays: number[] = [DAYS_OF_WEEK.SATURDAY, DAYS_OF_WEEK.SUNDAY];
+  dateformatter: NgbDateFRParserFormatter;
+  cssClass: string = RED_CELL;
 
-  constructor(private modal: NgbModal) {}
+
+  constructor(private wshSrv: WorksheetsService) { }
+
+ngOnInit() {
+this.wshSrv.list('').subscribe(result => {
+                                    this.worksheets = result;
+                                    this.events = [];
+                                    for (let int = 0; int < this.worksheets.length; int++) {
+                                      if (this.worksheets[int].status === false) {
+                                        this.events.push(
+                                          {
+                                          title:  '<a style href="/worksheetdetail/' +
+                                                  this.worksheets[int].worksheetID  + '/' + this.worksheets[int].userID + '">' +
+                                                  'Scheda N.' +
+                                                  this.worksheets[int].webID.toString() + ' : ' +
+                                                  this.worksheets[int].brand + ' ' +
+                                                  this.worksheets[int].model + ' ' +
+                                                  this.worksheets[int].type + ' ' +
+                                                  this.worksheets[int].color + ' ' + '(' +
+                                                  this.worksheets[int].firstname + ' ' + this.worksheets[int].lastname + ')</a>',
+                                          start: new Date(Number(this.worksheets[int].dateDelivery.substr(0, 4)),
+                                                          Number(this.worksheets[int].dateDelivery.substr(4, 2)) - 1,
+                                                          Number(this.worksheets[int].dateDelivery.substr(6, 2))),
+                                          draggable: true,
+                                          color: colors.red,
+                                          cssClass: 'custom-event',
+                                          meta: this.worksheets[int]
+
+                                          }
+                                        );
+                                      }
+                                  this.refresh.next();
+                                    }
+
+                                 }
+                      );
+}
+
 
 
   dayClicked({ date, events }: { date: Date; events: CalendarEvent[] }): void {
@@ -106,38 +107,38 @@ export class CalendarComponent {
         this.activeDayIsOpen = true;
       }
     }
-  }
 
+  }
 
   eventTimesChanged({
     event,
     newStart,
     newEnd
   }: CalendarEventTimesChangedEvent): void {
+
+    this.dateformatter = new NgbDateFRParserFormatter();
     event.start = newStart;
     event.end = newEnd;
-    this.handleEvent('Dropped or resized', event);
-    this.refresh.next();
+
+    console.log(this.dateformatter.YYYYMMDDformat2(newStart.getFullYear(), newStart.getUTCMonth() + 1 , newStart.getUTCDate() + 1 ));
+
+   (<Worksheet> event.meta).dateDelivery = (this.dateformatter.YYYYMMDDformat2(newStart.getFullYear(),
+                                                                               newStart.getUTCMonth() + 1 ,
+                                                                               newStart.getUTCDate() + 1 )).toString();
+
+  this.wshSrv.update(event.meta).subscribe();
+
+  this.refresh.next();
+
   }
 
-  handleEvent(action: string, event: CalendarEvent): void {
-    this.modalData = { event, action };
-    this.modal.open(this.modalContent, { size: 'lg' });
-  }
 
-  addEvent(): void {
-    this.events.push({
-      title: 'New event',
-      start: startOfDay(new Date()),
-      end: endOfDay(new Date()),
-      color: colors.red,
-      draggable: true,
-      resizable: {
-        beforeStart: true,
-        afterEnd: true
+
+  beforeMonthViewRender({ body }: { body: CalendarMonthViewDay[] }): void {
+    body.forEach(day => {
+      if (day.events.length >= 3) {
+        day.cssClass = 'background-color: #ff4a4a !important;';
       }
     });
-    this.refresh.next();
   }
 }
-

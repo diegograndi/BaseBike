@@ -54,4 +54,14 @@ export class NgbDateFRParserFormatter extends NgbDateParserFormatter {
       return stringDate;
   }
 
+  YYYYMMDDformat2(YYYY: number, MM: number, DD: number): string {
+    let stringDate = '';
+
+        stringDate += YYYY;
+        stringDate += isNumber(MM) ? padNumber(MM) + '' : '';
+        stringDate += isNumber(DD) ? padNumber(DD) + '' : '';
+
+    return stringDate;
+}
+
 }

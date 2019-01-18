@@ -31,9 +31,11 @@
               "node_modules/bootstrap/dist/css/bootstrap.min.css",
               "src/assets/bb-css/bb-carousel.css"
                         ],
-            "scripts": ["node_modules/jquery/dist/jquery.min.js",
-              "node_modules/bootstrap/dist/js/bootstrap.min.js",
-              "src/assets/bb-js/navbar.js"]
+            "scripts": ["node_modules/jquery/dist/jquery.slim.min.js",
+                        "node_modules/popper.js/dist/esm/Popper.js",
+                        "node_modules/bootstrap/dist/js/bootstrap.min.js"
+
+                      ]
           },
           "configurations": {
             "production": {

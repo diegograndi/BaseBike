@@ -11,4 +11,5 @@ export class Item {
    hh?: number;
    mm?: number;
    webID?: number;
+   inworksheet?: boolean;
   }

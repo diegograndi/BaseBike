@@ -1,12 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { WorksheetsService} from '../../services/worksheets.service';
-import { WorksheetitemsService} from '../../services/worksheetitems.service';
-import { WorksheetphotosService} from '../../services/worksheetphotos.service';
+import { ItemsService} from '../../services/items.service';
 import { AccountService} from '../../services/account.service';
 import { UsersService} from '../../services/users.service';
 import { PagerService} from '../../services/pager.service';
 import {Worksheet} from '../../models/worksheet';
 import {User} from '../../models/user';
+import {Item} from '../../models/item';
 import {Account} from '../../models/account';
 import { Guid } from 'guid-typescript';
 import { Router, ActivatedRoute} from '@angular/router';
@@ -14,6 +14,7 @@ import { NgbDateFRParserFormatter} from '../../utility/dateformat';
 import { NgbDateParserFormatter } from '@ng-bootstrap/ng-bootstrap';
 import { NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
 import { from } from 'rxjs';
+import { WorksheetitemsService } from 'src/app/services/worksheetitems.service';
 
 
 @Component({
@@ -41,14 +42,15 @@ export class WorksheetsComponent implements OnInit {
   pager: any = {};
   pagedWorksheets: any[];
   search: string;
+  defaultItems: Item[];
+  newItem: Item;
 
   constructor(private wshSrv: WorksheetsService,
-              private wshitmSrv: WorksheetitemsService,
-              private wshphtSrv: WorksheetphotosService,
               private actSrv: AccountService,
+              private wshitmSrv: WorksheetitemsService,
+              private itmSrv: ItemsService,
               private usrSrv: UsersService,
               private pagSrv: PagerService,
-              private router: Router,
               private route: ActivatedRoute) { }
 
   ngOnInit() {
@@ -61,8 +63,12 @@ export class WorksheetsComponent implements OnInit {
     this.wshSrv.list(this.search).subscribe(result => {
                                               this.worksheets = result;
                                               this.setPage(1);
+                                              this.wshSrv.notifyOpenWorksheetsCount(this.worksheets.filter(
+                                                                        wsh => wsh.status === false).length);
+                                              this.wshSrv.notifyWorksheetsCount(this.worksheets.length);
                                            }
                                 );
+
 
     this.lblBtnWorksheet = 'nuova scheda';
     this.lblBtnCustomer = 'nuovo cliente';
@@ -103,13 +109,42 @@ export class WorksheetsComponent implements OnInit {
           this.worksheets.push(this.newWorksheet);
           this.wshSrv.insert(this.newWorksheet).subscribe(res => {
                                                                 this.wshSrv.list(this.search).subscribe(result => this.worksheets = result);
+                                                                this.wshSrv.notifyWorksheetsCount(this.worksheets.length);
+                                                                this.wshSrv.notifyOpenWorksheetsCount(this.worksheets.filter(
+                                                                                                      wsh => wsh.status === false).length);
+                                                                 this.WorksheetDefaultItemsInsert(this.newWorksheet);
                                                                  } );
-          this.newWorksheet = {};
+
           this.show = false;
           this.newWorksheetDate = null;
         }
       }
   }
+
+  WorksheetDefaultItemsInsert(wsh: Worksheet) {
+
+    /* retrive default items for worksheet */
+    this.itmSrv.list().subscribe(result => { this.defaultItems = result;
+                                              console.log(this.defaultItems.length);
+                                              for (let i = 0; i < this.defaultItems.length; i++) {
+                                                if (this.defaultItems[i].inworksheet) {
+                                                  this.newItem =  new Item();
+                                                  this.newItem.worksheetID = wsh.worksheetID;
+                                                  this.newItem.accountID = wsh.accountID;
+                                                  this.newItem.name = this.defaultItems[i].name;
+                                                  this.newItem.description = this.defaultItems[i].description;
+                                                  this.newItem.price = this.defaultItems[i].price;
+                                                  this.newItem.itemID = this.defaultItems[i].itemID;
+                                                  this.newItem.active = true;
+                                                  this.newItem.worksheetItemID = Guid.create().toString();
+                                                  this.newItem.hh = this.defaultItems[i].hh;
+                                                  this.newItem.mm = this.defaultItems[i].mm;
+                                                  this.newItem.itemType = this.defaultItems[i].itemType;
+                                                  this.wshitmSrv.insert(this.newItem).subscribe();
+                                                }
+                                              }
+                                           });
+   }
 
   WorksheetUserInsert(usr: User) {
     this.customer = usr.firstName + ' ' + usr.lastName;
@@ -127,6 +162,8 @@ export class WorksheetsComponent implements OnInit {
           event => {
             this.worksheets.splice(index, 1);
             this.setPage(1);
+            this.wshSrv.notifyWorksheetsCount(this.worksheets.length);
+            this.wshSrv.notifyOpenWorksheetsCount(this.worksheets.filter(wshdel => wsh.status === false).length);
           }
         );
       }

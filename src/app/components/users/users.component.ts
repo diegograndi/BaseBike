@@ -80,6 +80,7 @@ export class UsersComponent implements OnInit {
                                                       this.setPage(1);
                                                       this.showcustomer = false;
                                                       this.newCustomer = {};
+                                                      this.usrSrv.notifyUsersCount(this.users.length);
                                                       });
       }
     }
@@ -90,6 +91,7 @@ export class UsersComponent implements OnInit {
         if (index > -1) {
           this.usrSrv.delete(usr).subscribe(event => {
                                                       this.users.splice(index, 1);
+                                                      this.usrSrv.notifyUsersCount(this.users.length);
                                                       this.setPage(1);
                                                       /* message */
                                                       this.msg = new Message();

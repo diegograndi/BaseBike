@@ -1,5 +1,81 @@
-<ul>
-    <li><a [routerLink]="['/itemdetail/1']" routerLinkActive="router-link-active">servizio 1</a></li>
-    <li><a [routerLink]="['/itemdetail/2']" routerLinkActive="router-link-active">servizio 2</a></li>
-    <li><a [routerLink]="['/itemdetail/3']" routerLinkActive="router-link-active">servizio 3</a></li>
-</ul>
+<div class="w3-main" style="margin-left:300px;margin-top:43px;">
+  <!-- Header -->
+    <header class="w3-container" style="padding-top:22px">
+      <h5><b><i class="fa fa-gears"></i> Servizi</b></h5>
+    </header>
+      <div class="w3-container">
+
+                 <table class="w3-table w3-striped w3-bordered w3-border w3-hoverable w3-white">
+              <thead style="background-color: lightgray">
+                  <th>Tipo</th>
+                  <th>Servizio</th>
+                <th>Descrizione</th>
+                <th>Prezzo</th>
+                <th>Stato</th>
+                <th>Azione</th>
+              </thead>
+              <tbody>
+                        <tr style="background-color: lightgray">
+                              <td>
+                                  <select class="btn btn-secondary btn-lm" (change)="typeSelected($event.target.value) [value]='0'" [(ngModel)]="newItem.itemType" >
+                                      <option [value]=0 >Servizio</option>
+                                      <option [value]=1 >Ricambio</option>
+                                      <option [value]=2 >Accessorio</option>
+                                      <option [value]=3 >Altro</option>
+                                  </select>
+                              </td>
+                              <td><input class="form-control" type="text" id="newname" [(ngModel)]="newItem.name"  placeholder="servizio" name="newname" required></td>
+                              <td> <input class="form-control" type="text" id="newdescription" [(ngModel)]="newItem.description" placeholder="descrizione"  name="newdescription" required></td>
+                              <td>
+                                  <div class="input-group">
+                                      <input class="form-control" type="number" id="newprice" [(ngModel)]="newItem.price" placeholder="prezzo" step="0.50"  name="newprice" required>
+                                      <div class="input-group-append">
+                                          <span class="input-group-text">CHF</span>
+                                      </div>
+                                  </div>
+                              </td>
+                              <td>
+                                    <label class="switch">
+                                          <input type="checkbox" [(ngModel)]="newItem.inworksheet" >
+                                          <span class="slider round"></span>
+                                     </label>
+                              </td>
+                              <td><button class="btn btn-primary btn-sm pull-right" type="button" (click) = ItemInsert(); >Nuovo</button></td>
+                          </tr>
+                          <tr>
+                            <td colspan="7"></td>
+                          </tr>
+                          <tr *ngFor="let item of items; let i  = index">
+                            <td>
+                                <select class="btn btn-secondary btn-lm" (change)="itemChanged(item)" [(ngModel)]="item.itemType" >
+                                    <option [value]=0 [selected]="item.itemType === '0'" >Servizio</option>
+                                    <option [value]=1 [selected]="item.itemType === '1'" >Ricambio</option>
+                                    <option [value]=2 [selected]="item.itemType === '2'" >Accessorio</option>
+                                    <option [value]=3 [selected]="item.itemType === '3'" >Altro</option>
+                                </select>
+
+                            </td>
+                            <td><input class="form-control" type="text" id="name-{{i}}" placeholder="servizio" [(ngModel)]="item.name" name="name-{{i}}" required></td>
+                              <td><input class="form-control" type="text" id="description-{{i}}" placeholder="descrizione" [(ngModel)]="item.description" name="description-{{i}}" required></td>
+                              <td>
+                                <div class="input-group">
+                                  <input class="form-control" type="number" id="price-{{i}}" placeholder="prezzo" step="0.50" [ngModel]="item.price | number : '.2-2'" (ngModelChange)="item.price = $event" name="price-{{i}}" required>
+                                  <div class="input-group-append">
+                                      <span class="input-group-text">CHF</span>
+                                  </div>
+                                </div>
+                              </td>
+                              <td>
+                                  <label class="switch">
+                                        <input type="checkbox" [(ngModel)]="item.inworksheet" (change)="itemChanged(item)" >
+                                        <span class="slider round"></span>
+                                   </label>
+                            </td>
+                              <td><button class="btn btn-primary btn-sm pull-right" type="button" (click) = ItemDelete(item); ><i class="fa fa-trash icon"></i></button></td>
+                            </tr>
+
+              </tbody>
+            </table>
+
+      </div>
+</div>

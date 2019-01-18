@@ -8,8 +8,8 @@ import { UserdetailComponent} from './components/userdetail/userdetail.component
 import { ItemsComponent} from './components/items/items.component';
 import { ItemdetailComponent} from './components/itemdetail/itemdetail.component';
 import { CalendarComponent} from './components/calendar/calendar.component';
-
 const routes: Routes = [
+
 
   {
     path: 'calendar',
@@ -28,7 +28,6 @@ const routes: Routes = [
     path: 'worksheetdetail/add',
     component: WorksheetdetailComponent
   }
-
   ,
   {
     path: 'users',
@@ -41,10 +40,6 @@ const routes: Routes = [
   {
     path: 'items',
     component: ItemsComponent
-  },
-  {
-    path: 'itemdetail/:itmid',
-    component: ItemdetailComponent
   }
 ];
 

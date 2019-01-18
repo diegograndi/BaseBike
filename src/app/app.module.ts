@@ -17,9 +17,15 @@ import { NavbarComponent } from './components/navbar/navbar.component';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import { MessageboardComponent } from './components/messageboard/messageboard.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { CalendarComponent } from './components/calendar/calendar.component';
 import { CalendarModule, DateAdapter } from 'angular-calendar';
 import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
-import { CalendarComponent } from './components/calendar/calendar.component';
+import { registerLocaleData } from '@angular/common';
+import localeIt from '@angular/common/locales/it';
+import { CalendarHeaderComponent } from './components/calendar-header/calendar-header.component';
+
+
+registerLocaleData(localeIt);
 
 @NgModule({
   declarations: [
@@ -35,7 +41,8 @@ import { CalendarComponent } from './components/calendar/calendar.component';
     WorksheetphotosComponent,
     NavbarComponent,
     MessageboardComponent,
-    CalendarComponent
+    CalendarComponent,
+    CalendarHeaderComponent
   ],
   imports: [
     BrowserModule,

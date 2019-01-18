@@ -25,6 +25,7 @@ import { messageType} from '../../models/message';
 })
 export class WorksheetdetailComponent implements OnInit {
 
+  worksheets: Worksheet[];
   worksheet: Worksheet = {};
   newItem: Item = {};
   newPhoto: Photo = {};
@@ -50,11 +51,19 @@ export class WorksheetdetailComponent implements OnInit {
   ngOnInit() {
     this.wshSrv.detail(this.worksheet).subscribe(worksheets => {
                                                                 this.worksheet = worksheets;
+                                                                this.wshSrv.list('').subscribe(result => {
+                                                                  this.worksheets = result;
+                                                                  this.wshSrv.notifyWorksheetsCount(this.worksheets.length);
+                                                                  this.wshSrv.notifyOpenWorksheetsCount(this.worksheets.filter(
+                                                                    wsh => wsh.status === false).length);
+                                                                }
+                                                                  );
                                                                });
 
   this.wshitmSrv.list(this.worksheet).subscribe(result => this.items = result);
   this.wshphtSrv.list(this.worksheet).subscribe(result => this.photos = result);
   this.usrSrv.detail(this.user).subscribe(users => this.user = users);
+
 
   }
 
@@ -69,6 +78,15 @@ export class WorksheetdetailComponent implements OnInit {
 
     this.wshSrv.update(this.worksheet[0]).subscribe(wsh => {
                                                               this.worksheet[0] = wsh;
+
+                                                              this.wshSrv.list('').subscribe(result => {
+                                                                this.worksheets = result;
+                                                                this.wshSrv.notifyWorksheetsCount(this.worksheets.length);
+                                                                this.wshSrv.notifyOpenWorksheetsCount(this.worksheets.filter(
+                                                                  wshupd => wshupd.status === false).length);
+                                                              }
+                                                              );
+
                                                               /* message */
                                                               this.msg = new Message();
                                                               this.msg.message = 'scheda di lavoro aggiornata correttamente';
@@ -83,6 +101,7 @@ export class WorksheetdetailComponent implements OnInit {
                                                               }
                                                               /* user */
                                                               this.usrSrv.update(this.user[0]).subscribe();
+
                                                             }
                                                       );
 
