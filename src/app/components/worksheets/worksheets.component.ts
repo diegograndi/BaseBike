@@ -15,6 +15,7 @@ import { NgbDateParserFormatter } from '@ng-bootstrap/ng-bootstrap';
 import { NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
 import { from } from 'rxjs';
 import { WorksheetitemsService } from 'src/app/services/worksheetitems.service';
+import { stringify } from '@angular/compiler/src/util';
 
 
 @Component({
@@ -45,6 +46,17 @@ export class WorksheetsComponent implements OnInit {
   defaultItems: Item[];
   newItem: Item;
 
+  public popoverDeleteWshTitle: string = 'Scheda di lavoro';
+  public popoveDeleteWshMessage: string = 'Confermare cancellazione?';
+  public popoverConfirmTxt: string = 'OK';
+  public popoverCancelTxt: string = 'Cancella';
+
+  public popoverInsertWshTitle: string = 'Scheda di lavoro';
+  public popoveInsertWshMessage: string = 'Inserire o selezionare un cliente';
+
+
+
+
   constructor(private wshSrv: WorksheetsService,
               private actSrv: AccountService,
               private wshitmSrv: WorksheetitemsService,
@@ -55,23 +67,29 @@ export class WorksheetsComponent implements OnInit {
 
   ngOnInit() {
     this.route.params.subscribe(params => this.search = params.search);
-    this.actSrv.detail(this.account).subscribe(accounts => this.account = accounts);
+    this.actSrv.detail(this.account).subscribe(accounts => {this.account[0] = accounts;
+      if (!this.search) {
+        this.search = '';
+      }
 
-    if (!this.search) {
-      this.search = '';
-    }
-    this.wshSrv.list(this.search).subscribe(result => {
-                                              this.worksheets = result;
-                                              this.setPage(1);
-                                              this.wshSrv.notifyOpenWorksheetsCount(this.worksheets.filter(
-                                                                        wsh => wsh.status === false).length);
-                                              this.wshSrv.notifyWorksheetsCount(this.worksheets.length);
-                                           }
-                                );
+      if (this.account[0] != null) {
+        this.wshSrv.list(this.search).subscribe(result => {
+                                                          this.worksheets = result;
+                                                          this.setPage(1);
+                                                          this.wshSrv.notifyOpenWorksheetsCount(this.worksheets.filter(
+                                                                                                wsh => wsh.status === false).length);
+                                                                                                this.wshSrv.notifyWorksheetsCount(this.worksheets.length);
+                                                          }
+                                                );
+
+        this.lblBtnWorksheet = 'nuova scheda';
+        this.lblBtnCustomer = 'nuovo cliente';
+      }
+                                                           }
+                                              );
 
 
-    this.lblBtnWorksheet = 'nuova scheda';
-    this.lblBtnCustomer = 'nuovo cliente';
+
 
   }
   WorksheetShowHide() {
@@ -95,11 +113,9 @@ export class WorksheetsComponent implements OnInit {
   }
 
   WorksheetInsert() {
-    if (this.newWorksheet.userID == null) {
-        confirm('Selezionare un cliente');
+    if (this.newWorksheet.userID == null || this.customer === '') {
+      this.popoveInsertWshMessage = 'Inserire o selezionare un cliente';
       } else {
-        if (confirm('Conferma nuova scheda?')) {
-
           this.formatter  = new NgbDateFRParserFormatter();
           this.newWorksheet.dateDelivery = this.formatter.YYYYMMDDformat(this.newWorksheetDate);
           this.newWorksheet.accountID = this.account[0].accountID;
@@ -117,7 +133,7 @@ export class WorksheetsComponent implements OnInit {
 
           this.show = false;
           this.newWorksheetDate = null;
-        }
+
       }
   }
 
@@ -149,13 +165,13 @@ export class WorksheetsComponent implements OnInit {
   WorksheetUserInsert(usr: User) {
     this.customer = usr.firstName + ' ' + usr.lastName;
     this.newWorksheet.userID = usr.userID;
+    this.popoveInsertWshMessage = 'Confermare inserimento?';
     this.users.length = 0;
     this.users = [];
     this.showcustomer = false;
   }
 
   WorksheetDelete(wsh: Worksheet) {
-    if (confirm('Eliminare scheda?')) {
       const index = this.worksheets.indexOf(wsh);
       if (index > -1) {
         this.wshSrv.delete(wsh).subscribe(
@@ -167,7 +183,7 @@ export class WorksheetsComponent implements OnInit {
           }
         );
       }
-    }
+
   }
   WorksheetSearch() {
     if (this.search.length >= 3) {
@@ -186,6 +202,7 @@ export class WorksheetsComponent implements OnInit {
   }
 
   CustomerInsert() {
+   this.popoveInsertWshMessage = 'Confermare inserimento?';
    this.newCustomer.accountID = this.account[0].accountID;
    this.newCustomer.userID = Guid.create().toString();
    this.usrSrv.insert(this.newCustomer).subscribe(res => {

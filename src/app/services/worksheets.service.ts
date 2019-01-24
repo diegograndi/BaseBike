@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Worksheet } from '../models/worksheet';
 import { User} from '../models/user';
 import { HttpHeaders } from '@angular/common/http';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -23,22 +24,22 @@ export class WorksheetsService {
     };
   }
   list(srch: string) {
-    return this.http.get<Worksheet[]>('https://localhost:5001/bbapi/v1/worksheets/list/' + srch);
+    return this.http.get<Worksheet[]>(environment.apiUrl + 'worksheets/list/' + srch);
   }
   listByUser(usrid: User) {
-    return this.http.get<Worksheet[]>('https://localhost:5001/bbapi/v1/worksheets/listbyuser/' + usrid);
+    return this.http.get<Worksheet[]>(environment.apiUrl + 'worksheets/listbyuser/' + usrid);
   }
 
   detail(wshId: Worksheet) {
-    return this.http.get<Worksheet>('https://localhost:5001/bbapi/v1/worksheets/detail/' + wshId );
+    return this.http.get<Worksheet>(environment.apiUrl + 'worksheets/detail/' + wshId );
   }
 
   insert(wshId: Worksheet) {
-    return this.http.put<Worksheet>('https://localhost:5001/bbapi/v1/worksheets/insert/', wshId, this.httpOptions);
+    return this.http.put<Worksheet>(environment.apiUrl + 'worksheets/insert/', wshId, this.httpOptions);
   }
 
   delete(wshId: Worksheet) {
-    return this.http.delete<Worksheet>('https://localhost:5001/bbapi/v1/worksheets/delete/' + wshId.worksheetID ,
+    return this.http.delete<Worksheet>(environment.apiUrl + 'worksheets/delete/' + wshId.worksheetID ,
     this.httpOptions);
   }
 

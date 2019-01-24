@@ -130,7 +130,19 @@
         </div> <!--!showcustomer-->
 
           <div class="col-sm">
-            <button type="button" class="btn btn-primary  pull-right" (click) = WorksheetInsert(); >Salva</button>
+
+            <button
+              class="btn btn-primary btn-sm pull-right"
+              type="button"
+              mwlConfirmationPopover
+              [popoverTitle]="popoverInsertWshTitle"
+              [popoverMessage]="popoveInsertWshMessage"
+              [confirmText]="popoverConfirmTxt"
+              [cancelText]="popoverCancelTxt"
+              placement="left"
+              (confirm)=WorksheetInsert()>
+              Salva
+            </button>
           </div>
         </div>
         </div>
@@ -193,7 +205,18 @@
                   ></i>
                 </td>
                 <td>
-                  <button class="btn btn-primary btn-sm" type="button" (click) = WorksheetDelete(worksheet); ><i class="fa fa-trash icon"></i></button>
+                  <button
+                    class="btn btn-primary btn-sm pull-center"
+                    type="button"
+                    mwlConfirmationPopover
+                    [popoverTitle]="popoverDeleteWshTitle"
+                    [popoverMessage]="popoveDeleteWshMessage"
+                    [confirmText]="popoverConfirmTxt"
+                    [cancelText]="popoverCancelTxt"
+                    placement="left"
+                    (confirm)=WorksheetDelete(worksheet)>
+                    <i class="fa fa-trash icon"></i>
+                  </button>
                 </td>
               </tr>
       </tbody>

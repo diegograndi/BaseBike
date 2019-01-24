@@ -66,7 +66,18 @@
            <div class="form-group"></div>
            <div class="row">
            </div>
-           <button type="button" class="btn btn-primary  pull-right" (click) = CustomerInsert(); > salva cliente</button>
+              <button
+                 class="btn btn-primary btn-sm pull-right"
+                 type="button"
+                 mwlConfirmationPopover
+                 [popoverTitle]="popoverInsertUsrTitle"
+                 [popoverMessage]="popoverInsertUsrMessage"
+                 [confirmText]="popoverConfirmTxt"
+                 [cancelText]="popoverCancelTxt"
+                 placement="left"
+                 (confirm)=CustomerInsert()>
+                 salva cliente
+               </button>
            <div class="col-sm">
          </div>
        </div> <!--showcustomer-->
@@ -119,8 +130,19 @@
                <td>{{customer.lastName}}</td>
                <td>{{customer.email}}</td>
                <td>
-                 <button class="btn btn-primary btn-sm" type="button" (click) = CustomerDelete(customer); ><i class="fa fa-trash icon"></i></button>
-               </td>
+                 <button
+                 class="btn btn-primary btn-sm pull-right"
+                 type="button"
+                 mwlConfirmationPopover
+                 [popoverTitle]="popoverDeleteUsrTitle"
+                 [popoverMessage]="popoveDeleteUsrMessage"
+                 [confirmText]="popoverConfirmTxt"
+                 [cancelText]="popoverCancelTxt"
+                 placement="left"
+                 (confirm)=CustomerDelete(customer)>
+                 <i class="fa fa-trash icon"></i>
+               </button>
+                </td>
             </tr>
      </tbody>
    </table>

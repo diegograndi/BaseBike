@@ -28,6 +28,14 @@ export class UsersComponent implements OnInit {
   search: string;
   msg: Message;
 
+
+  public popoverDeleteUsrTitle: string = 'Anagrafica cliente';
+  public popoveDeleteUsrMessage: string = 'Confermare cancellazione?';
+  public popoverInsertUsrTitle: string = 'Anagrafica cliente';
+  public popoverInsertUsrMessage: string = 'Confermare inserimento?';
+  public popoverConfirmTxt: string = 'OK';
+  public popoverCancelTxt: string = 'Cancella';
+
   constructor(private wshSrv: WorksheetsService,
               private actSrv: AccountService,
               private usrSrv: UsersService,
@@ -64,7 +72,7 @@ export class UsersComponent implements OnInit {
     }
 
     CustomerInsert() {
-    if (confirm('Conferma nuova cliente?')) {
+
       this.newCustomer.accountID = this.account[0].accountID;
       this.newCustomer.userID = Guid.create().toString();
       this.usrSrv.insert(this.newCustomer).subscribe(res => {
@@ -82,7 +90,6 @@ export class UsersComponent implements OnInit {
                                                       this.newCustomer = {};
                                                       this.usrSrv.notifyUsersCount(this.users.length);
                                                       });
-      }
     }
 
     CustomerDelete(usr: User) {

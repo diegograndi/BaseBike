@@ -18,6 +18,15 @@ import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 })
 export class ItemsComponent implements OnInit {
 
+  public popoverDeleteItmTitle: string = 'Servizi';
+  public popoveDeleteImtMessage: string = 'Confermare cancellazione?';
+  public popoverInsertItmTitle: string = 'Servizi';
+  public popoverInsertImtMessage: string = 'Confermare inserimento?';
+  public popoverUpdateItmTitle: string = 'Servizi';
+  public popoverUpdateImtMessage: string = 'Aggiornare servizio?';
+  public popoverConfirmTxt: string = 'OK';
+  public popoverCancelTxt: string = 'Cancella';
+
   newItem: Item = {};
   items: Item[];
   CurrItem: Item = {};
@@ -30,10 +39,23 @@ export class ItemsComponent implements OnInit {
 
   ngOnInit() {
     this.itmSrv.list().subscribe(result => { this.items = result; });
-    this.actSrv.detail(this.account).subscribe(accounts => this.account = accounts);
+    this.actSrv.detail(this.account).subscribe(accounts => {this.account[0] = accounts; } );
    }
 
-   itemChanged(itm: Item) {
+  validate(): boolean {
+    if ( this.newItem.itemType !== '' &&  this.newItem.name !== '' &&  this.newItem.description !== '' && this.newItem.price > 0 ) {
+      return true;
+    } else {
+      return false;
+    }
+
+  }
+  itemChanged(itm: Item) {
+    this.CurrItem = itm;
+    this.itmSrv.update(this.CurrItem).subscribe();
+    return;
+  }
+  itemUpdate(itm: Item) {
     this.CurrItem = itm;
     this.itmSrv.update(this.CurrItem).subscribe();
     return;
@@ -51,5 +73,8 @@ ItemInsert() {
                                                       } );
 }
 
+typeSelected(event) {
+
+}
 
 }

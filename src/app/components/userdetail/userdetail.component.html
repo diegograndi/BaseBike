@@ -4,7 +4,18 @@
   <header class="w3-container" style="padding-top:11px">
      <h5>
        <b><i class="fa fa-user"></i> Dettaglio cliente</b>
-       <button type="button" class="btn btn-primary pull-right" (click) = CustomerUpdate(); >Salva</button>
+       <button
+       class="btn btn-primary pull-right"
+       type="button"
+       mwlConfirmationPopover
+       [popoverTitle]="popoverUpdateUsrTitle"
+       [popoverMessage]="popoverUpdateUsrMessage"
+       [confirmText]="popoverConfirmTxt"
+       [cancelText]="popoverCancelTxt"
+       placement="left"
+       (confirm)=CustomerUpdate()>
+       salva
+     </button>
      </h5>
  </header>
 

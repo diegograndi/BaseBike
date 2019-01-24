@@ -2,6 +2,7 @@ import { Injectable, Output, EventEmitter } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { User } from '../models/user';
 import { HttpHeaders } from '@angular/common/http';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -21,23 +22,23 @@ export class UsersService {
    }
 
   list() {
-    return this.http.get<User[]>('https://localhost:5001/bbapi/v1/users/list');
+    return this.http.get<User[]>(environment.apiUrl + 'users/list');
   }
 
   detail(usrId: User) {
-    return this.http.get<User>('https://localhost:5001/bbapi/v1/users/detail/' + usrId );
+    return this.http.get<User>(environment.apiUrl + 'users/detail/' + usrId );
   }
 
   search(search: string) {
-    return this.http.get<User[]>('https://localhost:5001/bbapi/v1/users/list/' + search);
+    return this.http.get<User[]>(environment.apiUrl + 'users/list/' + search);
   }
 
   insert(usrId: User) {
-    return this.http.put<User>('https://localhost:5001/bbapi/v1/users/insert/', usrId, this.httpOptions);
+    return this.http.put<User>(environment.apiUrl + 'users/insert/', usrId, this.httpOptions);
   }
 
   delete(usrId: User) {
-    return this.http.delete<User>('https://localhost:5001/bbapi/v1/users/delete/' + usrId.userID ,
+    return this.http.delete<User>(environment.apiUrl + 'users/delete/' + usrId.userID ,
     this.httpOptions);
   }
 

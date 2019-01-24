@@ -18,6 +18,13 @@ export class UserdetailComponent implements OnInit {
   user: User;
   worksheets: Worksheet[];
   msg: Message;
+
+  public popoverUpdateUsrTitle: string = 'Anagrafica cliente';
+  public popoverUpdateUsrMessage: string = 'Aggiornare anagrafica?';
+  public popoverConfirmTxt: string = 'OK';
+  public popoverCancelTxt: string = 'Cancella';
+
+
   constructor(private route: ActivatedRoute,
               private usrSrv: UsersService,
               private wshSrv: WorksheetsService,
@@ -47,7 +54,7 @@ export class UserdetailComponent implements OnInit {
           this.msgSrv.add(this.msg);
           setTimeout(function() {
           this.msgSrv.clear();
-          }.bind(this), 3000);
+          }.bind(this), 1000);
         });
 
     } catch (error) {
@@ -58,7 +65,7 @@ export class UserdetailComponent implements OnInit {
         this.msgSrv.add(this.msg);
         setTimeout(function() {
         this.msgSrv.clear();
-        }.bind(this), 3000);
+        }.bind(this), 1000);
     }
 
    }

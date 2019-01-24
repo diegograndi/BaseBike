@@ -3,7 +3,18 @@
      <header class="w3-container" style="padding-top:11px">
       <h5>
           <b><i class="fa fa-list-alt"></i> Scheda di lavoro N.{{worksheet[0].webID}}</b>
-          <button type="button" class="btn btn-primary btn-sm pull-right" (click) = WorksheetUpdate(); >Salva</button>
+          <button
+            class="btn btn-primary btn-sm pull-right"
+            type="button"
+            mwlConfirmationPopover
+            [popoverTitle]="popoverUpdateWshTitle"
+            [popoverMessage]="popoveUpdateWshMessage"
+            [confirmText]="popoverConfirmTxt"
+            [cancelText]="popoverCancelTxt"
+            placement="left"
+            (confirm)=WorksheetUpdate()>
+            salva
+          </button>
         </h5>
     </header>
     <div class="w3-container">
@@ -142,7 +153,7 @@
                   <th *ngIf="!worksheet[0].status">Azione</th>
                 </thead>
                 <tbody>
-                      <tr *ngIf="!worksheet[0].status">
+                      <tr *ngIf="!worksheet[0].status" style="background-color: lightgray">
                         <td><input class="form-control" type="text" id="newname" [(ngModel)]="newItem.name"  placeholder="servizio" name="newname" required></td>
                           <td> <input class="form-control" type="text" id="newdescription" [(ngModel)]="newItem.description" placeholder="descrizione"  name="newdescription" required></td>
                           <td>
@@ -153,8 +164,25 @@
                                   </div>
                               </div>
                           </td>
-                          <td *ngIf="!worksheet[0].status"><button class="btn btn-primary btn-sm pull-right" type="button" (click) = WorksheetItemInsert(); >Nuovo</button></td>
+                          <td *ngIf="!worksheet[0].status">
+
+                            <button
+                            class="btn btn-primary btn-sm pull-center"
+                            type="button"
+                            mwlConfirmationPopover
+                            [popoverTitle]="popoverInsertItmTitle"
+                            [popoverMessage]="popoveInsertImtMessage"
+                            [confirmText]="popoverConfirmTxt"
+                            [cancelText]="popoverCancelTxt"
+                            placement="left"
+                            (confirm)=WorksheetItemInsert()>
+                            nuovo
+                          </button>
+                          </td>
                       </tr>
+                      <tr style="background-color: lightgray">
+                          <td colspan="7"></td>
+                        </tr>
                       <tr *ngFor="let item of items; let i  = index">
                           <td><input [disabled]="worksheet[0].status" class="form-control" type="text" id="name-{{i}}" placeholder="servizio" [(ngModel)]="item.name" name="name-{{i}}" required></td>
                           <td><input [disabled]="worksheet[0].status" class="form-control" type="text" id="description-{{i}}" placeholder="descrizione" [(ngModel)]="item.description" name="description-{{i}}" required></td>
@@ -168,7 +196,20 @@
 
                           </td>
 
-                          <td *ngIf="!worksheet[0].status"><button class="btn btn-primary btn-sm pull-right" type="button" (click) = WorksheetItemDelete(item); ><i class="fa fa-trash icon"></i></button></td>
+                          <td *ngIf="!worksheet[0].status">
+                            <button
+                            class="btn btn-primary btn-sm pull-center"
+                            type="button"
+                            mwlConfirmationPopover
+                            [popoverTitle]="popoverDeleteItmTitle"
+                            [popoverMessage]="popoveDeleteImtMessage"
+                            [confirmText]="popoverConfirmTxt"
+                            [cancelText]="popoverCancelTxt"
+                            placement="left"
+                            (confirm)=WorksheetItemDelete(item)>
+                            <i class="fa fa-trash icon"></i>
+                          </button>
+                          </td>
                         </tr>
                 </tbody>
               </table>

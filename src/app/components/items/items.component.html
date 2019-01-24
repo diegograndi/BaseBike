@@ -5,26 +5,33 @@
     </header>
       <div class="w3-container">
 
-                 <table class="w3-table w3-striped w3-bordered w3-border w3-hoverable w3-white">
+            <table class="w3-table w3-striped w3-bordered w3-border w3-hoverable w3-white">
               <thead style="background-color: lightgray">
                   <th>Tipo</th>
                   <th>Servizio</th>
                 <th>Descrizione</th>
                 <th>Prezzo</th>
                 <th>Stato</th>
+                <th>&nbsp;</th>
                 <th>Azione</th>
               </thead>
               <tbody>
-                        <tr style="background-color: lightgray">
+
+                          <tr style="background-color: lightgray">
                               <td>
+
                                   <select class="btn btn-secondary btn-lm" (change)="typeSelected($event.target.value) [value]='0'" [(ngModel)]="newItem.itemType" >
+                                      <option [value]="" >seleziona</option>
                                       <option [value]=0 >Servizio</option>
                                       <option [value]=1 >Ricambio</option>
                                       <option [value]=2 >Accessorio</option>
                                       <option [value]=3 >Altro</option>
                                   </select>
+
                               </td>
-                              <td><input class="form-control" type="text" id="newname" [(ngModel)]="newItem.name"  placeholder="servizio" name="newname" required></td>
+                              <td>
+                                <input class="form-control" type="text" id="newname" [(ngModel)]="newItem.name"  placeholder="servizio" name="newname" >
+                              </td>
                               <td> <input class="form-control" type="text" id="newdescription" [(ngModel)]="newItem.description" placeholder="descrizione"  name="newdescription" required></td>
                               <td>
                                   <div class="input-group">
@@ -40,7 +47,23 @@
                                           <span class="slider round"></span>
                                      </label>
                               </td>
-                              <td><button class="btn btn-primary btn-sm pull-right" type="button" (click) = ItemInsert(); >Nuovo</button></td>
+                              <td></td>
+                              <td>
+                                <button
+                                class="btn btn-primary btn-sm pull-center"
+                                type="button"
+                                mwlConfirmationPopover
+                                [popoverTitle]="popoverInsertItmTitle"
+                                [popoverMessage]="popoverInsertImtMessage"
+                                [confirmText]="popoverConfirmTxt"
+                                [cancelText]="popoverCancelTxt"
+                                placement="left"
+                                (confirm)=ItemInsert()
+                                [disabled]=!validate()>
+                                nuovo
+                              </button>
+
+                              </td>
                           </tr>
                           <tr>
                             <td colspan="7"></td>
@@ -71,7 +94,35 @@
                                         <span class="slider round"></span>
                                    </label>
                             </td>
-                              <td><button class="btn btn-primary btn-sm pull-right" type="button" (click) = ItemDelete(item); ><i class="fa fa-trash icon"></i></button></td>
+                              <td>
+                                  <button
+                                  class="btn btn-primary btn-sm pull-center"
+                                  type="button"
+                                  mwlConfirmationPopover
+                                  [popoverTitle]="popoverUpdateItmTitle"
+                                  [popoverMessage]="popoverUpdateImtMessage"
+                                  [confirmText]="popoverConfirmTxt"
+                                  [cancelText]="popoverCancelTxt"
+                                  placement="left"
+                                  (confirm)=itemUpdate(item)>
+                                  <i class="fa fa-gear icon"></i>
+                                </button>
+
+                              </td>
+                              <td>
+                                <button
+                                  class="btn btn-primary btn-sm pull-center"
+                                  type="button"
+                                  mwlConfirmationPopover
+                                  [popoverTitle]="popoverDeleteItmTitle"
+                                  [popoverMessage]="popoveDeleteImtMessage"
+                                  [confirmText]="popoverConfirmTxt"
+                                  [cancelText]="popoverCancelTxt"
+                                  placement="left"
+                                  (confirm)=ItemDelete(item)>
+                                  <i class="fa fa-trash icon"></i>
+                                </button>
+                                </td>
                             </tr>
 
               </tbody>

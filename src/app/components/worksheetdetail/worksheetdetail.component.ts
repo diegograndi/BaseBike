@@ -35,6 +35,15 @@ export class WorksheetdetailComponent implements OnInit {
   worksheetDeliveryDate: NgbDateStruct;
   msg: Message;
 
+  public popoverUpdateWshTitle: string = 'Scheda di servizio';
+  public popoveUpdateWshMessage: string = 'Confermare aggiornamento?';
+  public popoverDeleteItmTitle: string = 'Servizi';
+  public popoveDeleteImtMessage: string = 'Confermare cancellazione?';
+  public popoverInsertItmTitle: string = 'Servizi';
+  public popoveInsertImtMessage: string = 'Confermare inserimento?';
+  public popoverConfirmTxt: string = 'OK';
+  public popoverCancelTxt: string = 'Cancella';
+
   formatter: NgbDateFRParserFormatter;
   selectedFile: File;
 
@@ -94,7 +103,7 @@ export class WorksheetdetailComponent implements OnInit {
                                                               this.msgSrv.add(this.msg);
                                                               setTimeout(function() {
                                                               this.msgSrv.clear();
-                                                              }.bind(this), 1500);
+                                                              }.bind(this), 500);
                                                               /* items */
                                                               for (const itm of this.items) {
                                                                 this.wshitmSrv.update(itm).subscribe();
@@ -119,7 +128,7 @@ export class WorksheetdetailComponent implements OnInit {
     this.msgSrv.add(this.msg);
     setTimeout(function() {
     this.msgSrv.clear();
-    }.bind(this), 1500);
+    }.bind(this), 500);
   }
 
   WorksheetItemDelete(itm: Item) {
@@ -131,10 +140,6 @@ export class WorksheetdetailComponent implements OnInit {
         this.wshitmSrv.delete(itm).subscribe(
           event => {
             this.items.splice(index, 1);
-            this.msgSrv.add(this.msg);
-            setTimeout(function() {
-            this.msgSrv.clear();
-            }.bind(this), 1500);
           }
         );
       }
@@ -159,10 +164,6 @@ export class WorksheetdetailComponent implements OnInit {
           event => {
             this.items.push(this.newItem);
             this.newItem = {};
-            this.msgSrv.add(this.msg);
-            setTimeout(function() {
-            this.msgSrv.clear();
-            }.bind(this), 1500);
           }
         );
   }

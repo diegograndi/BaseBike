@@ -23,7 +23,7 @@ import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
 import { registerLocaleData } from '@angular/common';
 import localeIt from '@angular/common/locales/it';
 import { CalendarHeaderComponent } from './components/calendar-header/calendar-header.component';
-
+import { ConfirmationPopoverModule } from 'angular-confirmation-popover';
 
 registerLocaleData(localeIt);
 
@@ -45,6 +45,9 @@ registerLocaleData(localeIt);
     CalendarHeaderComponent
   ],
   imports: [
+    ConfirmationPopoverModule.forRoot({
+      confirmButtonType: 'primary'
+    }),
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,

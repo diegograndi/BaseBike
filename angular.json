@@ -33,8 +33,10 @@
                         ],
             "scripts": ["node_modules/jquery/dist/jquery.slim.min.js",
                         "node_modules/popper.js/dist/esm/Popper.js",
-                        "node_modules/bootstrap/dist/js/bootstrap.min.js"
-
+                        "node_modules/bootstrap/dist/js/bootstrap.bundle.min.js",
+                        "node_modules/bootstrap/dist/js/bootstrap.min.js",
+                        "node_modules/bootstrap-confirmation/dist/bootstrap-confirmation.min.js",
+                        "node_modules/bootstrap-popover/dist/bootstrap-popover.js"
                       ]
           },
           "configurations": {
